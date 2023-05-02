@@ -1,5 +1,6 @@
 import { AxiosInstance } from "axios";
 import { DefineComponent, Plugin } from "vue";
+// @ts-ignore
 import route from "ziggy-js";
 import _ from "lodash";
 

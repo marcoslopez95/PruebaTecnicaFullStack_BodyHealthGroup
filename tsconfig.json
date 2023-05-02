@@ -8,6 +8,10 @@
         "sourceMap": true,
         "resolveJsonModule": true,
         "esModuleInterop": true,
+        "typeRoots": [
+            "./node_modules/@types",
+            "./resources/js/*.d.ts"
+        ],
         "lib": [
             "esnext",
             "dom"

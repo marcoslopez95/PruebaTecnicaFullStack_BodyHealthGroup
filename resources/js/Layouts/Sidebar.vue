@@ -37,10 +37,7 @@
     <!-- Sidebar Menu -->
     <nav
       class="mt-5 py-4 px-4 lg:mt-9 lg:px-6"
-      x-data="{selected: 'Dashboard'}"
-      x-init="
-        selected = JSON.parse(localStorage.getItem('selected'));
-        $watch('selected', value => localStorage.setItem('selected', JSON.stringify(value)))"
+
     >
       <!-- Menu Group -->
       <div>
@@ -52,9 +49,14 @@
             <a
               class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
               href="#"
-              @click.prevent="selected = (selected === 'Dashboard' ? '':'Dashboard')"
-              :class="{ 'bg-graydark dark:bg-meta-4': (selected === 'Dashboard') || (page === 'analytics' || page === 'ecommerce') }"
+              @click.prevent="clickInDropdownMenu('Dashboard')"
+              :class="[
+                // @ts-ignore
+                verifiedActiveItemMenu('dashboard','analytics') ?'bg-graydark dark:bg-meta-4' : '',
+                ]"
+
             >
+
               <svg
                 class="fill-current"
                 width="18"
@@ -110,8 +112,11 @@
                 <li>
                   <a
                     class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                    href="index.html"
-                    :class="page === 'analytics' && '!text-white'"
+                    :href="// @ts-ignore
+                    route('dashboard')"
+                    :class="
+                        // @ts-ignore
+                        route().current('dashboard') ? '!text-white':''"
                     >Analytics</a
                   >
                 </li>
@@ -123,11 +128,15 @@
 
           <!-- Menu Item Calendar -->
           <li>
+
             <a
               class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-              href="calendar.html"
-              @click="selected = (selected === 'Calendar' ? '':'Calendar')"
-              :class="{ 'bg-graydark dark:bg-meta-4': (selected === 'Calendar') && (page === 'calendar') }"
+              :href="
+              //@ts-ignore
+              route('calendar')
+              "
+              @click="clickInDropdownMenu('Calendar')"
+              :class="{ 'bg-graydark dark:bg-meta-4': verifiedActiveItemMenu('calendar')}"
             >
               <svg
                 class="fill-current"
@@ -152,10 +161,11 @@
           <li>
             <a
               class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-              href="profile.html"
-              @click="selected = (selected === 'Profile' ? '':'Profile')"
+              :href="/*@ts-ignore*/
+                route('profile')"
+              @click="clickInDropdownMenu('Profile')"
               :class="[
-                (selected === 'Profile') && (page === 'profile') ?'bg-graydark dark:bg-meta-4' :'',
+                verifiedActiveItemMenu('profile') ?'bg-graydark dark:bg-meta-4' :'',
                 ]"
             >
               <svg
@@ -186,8 +196,8 @@
             <a
               class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
               href="#"
-              @click.prevent="selected = (selected === 'Forms' ? '':'Forms')"
-              :class="{ 'bg-graydark dark:bg-meta-4': (selected === 'Forms') || (page === 'formElements' || page === 'formLayout') }"
+              @click.prevent="clickInDropdownMenu('Forms')"
+              :class="{ 'bg-graydark dark:bg-meta-4': verifiedActiveItemMenu('Forms','formElements', 'formLayout') }"
             >
               <svg
                 class="fill-current"
@@ -248,8 +258,9 @@
                 <li>
                   <a
                     class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                    href="form-elements.html"
-                    :class="page === 'formElements' && '!text-white'"
+                    :href="//@ts-ignore
+                    route('formElements')"
+                    :class="verifiedActiveItemMenu('formElements' ) ? '!text-white': ''"
                     >Form Elements</a
                   >
                 </li>
@@ -257,7 +268,7 @@
                   <a
                     class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
                     href="form-layout.html"
-                    :class="page === 'formLayout' && '!text-white'"
+                    :class="verifiedActiveItemMenu( 'formLayout') ? '!text-white':''"
                     >Form Layout</a
                   >
                 </li>
@@ -583,7 +594,7 @@
     <!-- Sidebar Menu -->
 
     <!-- Promo Box -->
-    <div
+    <!-- <div
       class="mx-auto mb-10 w-full max-w-60 rounded-sm border border-strokedark bg-boxdark py-6 px-4 text-center shadow-default">
       <h3 class="mb-1 font-semibold text-white">TailAdmin Pro</h3>
       <p class="mb-4 text-xs">Get All Dashboards and 300+ UI Elements</p>
@@ -591,7 +602,7 @@
         class="flex items-center justify-center rounded-md bg-primary p-2 text-white hover:bg-opacity-95">
         Purchase Now
       </a>
-    </div>
+    </div> -->
     <!-- Promo Box -->
   </div>
 </aside>
@@ -600,14 +611,30 @@
 
 <script setup lang="ts">
 import { helperStore } from '@/helper';
-import { inject, ref } from 'vue';
+import {  ref } from 'vue';
 import { storeToRefs } from 'pinia'
-const sidebarToggle = ref(false)
+
 const selected = ref('')
 const page = ref('')
 // const openHamburgerMenu = inject('openHamburgerMenu')
 const helper = helperStore()
+
 const { openHamburgerMenu } = storeToRefs(helper)
+
+const clickInDropdownMenu = (item:string):void => {
+    selected.value = selected.value === item ? '' : item
+}
+
+const verifiedActiveItemMenu = (...items: string[]): boolean => {
+    let band = false
+    items.forEach(item =>{
+        // @ts-ignore
+        if(route().current(item)){
+            band = true
+        }
+    })
+    return band
+}
 </script>
 
 <style scoped>

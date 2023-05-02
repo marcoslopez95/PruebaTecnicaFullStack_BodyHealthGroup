@@ -380,7 +380,7 @@
 
 <script setup lang="ts">
 import { helperStore } from '@/helper';
-import { ref,inject } from 'vue';
+import { ref } from 'vue';
 import { storeToRefs } from 'pinia'
 const sidebarToggle = ref(false)
 const darkMode = ref(false)

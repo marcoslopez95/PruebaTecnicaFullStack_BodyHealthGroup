@@ -30,11 +30,31 @@ Route::prefix('template')->group(function () {
 });
 
 Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
+    // 'auth:sanctum',
+    // config('jetstream.auth_session'),
+    // 'verified',
 ])->group(function () {
+    //template
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::prefix('template')->group(function () {
+        Route::get('/calendar', function () {
+            return Inertia::render('Dashboard');
+        })->name('calendar');
+
+        Route::get('/profile', function () {
+            return Inertia::render('Dashboard');
+        })->name('profile');
+
+        Route::get('/formElements', function () {
+            return Inertia::render('Dashboard');
+        })->name('formElements');
+
+        Route::get('/formLayout', function () {
+            return Inertia::render('Dashboard');
+        })->name('formLayout');
+    });
+
 });
