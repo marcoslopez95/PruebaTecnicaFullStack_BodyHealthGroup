@@ -40,7 +40,10 @@
         "flatpickr": "^4.6.13",
         "jsvectormap": "^1.5.1",
         "lodash": "^4.17.21",
+        "oh-vue-icons": "^1.0.0-rc3",
         "pinia": "^2.0.35",
-        "typescript": "^5.0.4"
+        "typescript": "^5.0.4",
+        "vue-material-design-icons": "^5.2.0",
+        "vuetify": "^3.2.1"
     }
 }

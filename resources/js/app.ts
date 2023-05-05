@@ -9,6 +9,11 @@ import axios from 'axios'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { ZiggyVue } from 'ziggy'
 import { createPinia } from 'pinia'
+import { OhVueIcon, addIcons } from "oh-vue-icons";
+import * as FaIcons from "oh-vue-icons/icons/md";
+
+const Fa = Object.values({ ...FaIcons });
+addIcons(...Fa);
 const appName =
   window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel'
 window._ = _
@@ -28,6 +33,7 @@ createInertiaApp({
       .use(pinia)
       .use(ZiggyVue, Ziggy)
       .component('InertiaLink', Link)
+      .component("v-icon", OhVueIcon)
       .mixin({ methods: { route: window.route } })
       .mount(el)
   },
