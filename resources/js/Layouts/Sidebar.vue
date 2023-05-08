@@ -31,299 +31,57 @@
 
     >
       <!-- Menu Group -->
-      <div>
-        <h3 class="mb-4 ml-4 text-sm font-medium text-bodydark2">MENU</h3>
+      <div v-for="menu,i in itemsMenu" :key="i">
+        <h3 class="mb-4 ml-4 text-sm font-medium text-bodydark2 uppercase">{{menu.title}}</h3>
 
         <ul class="mb-6 flex flex-col gap-1.5">
           <!-- Menu Item Dashboard -->
-          <li>
+          <li v-for="item,k in menu.items" :key="k">
             <a
               class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-              href="#"
-              @click.prevent="clickInDropdownMenu('Dashboard')"
-              :class="[
-                // @ts-ignore
-                verifiedActiveItemMenu('dashboard','analytics') ?'bg-graydark dark:bg-meta-4' : '',
-                ]"
+              :href="item.children ?'#' : //@ts-ignore
+              route(item.to)"
+              @click="clickInDropdownMenu($event,item)"
+              :class="{
+                'bg-graydark dark:bg-meta-4': verifiedActiveItemMenu(...getAllToForItem(item)),
+                }"
 
             >
-
-              <DashboardIcon />
-
-              Dashboard
-
-              <ArrowIcon
-                :class="{ 'rotate-180': (selected === 'Dashboard') }"
+            <Component v-if="item.icon" :is="item.icon" />
+            {{ item.label }}
+            <ArrowIcon
+                v-if="item.children"
+                :class="{ 'rotate-180': (selected === item.label) }"
               />
-            </a>
 
-            <!-- Dropdown Menu Start -->
-            <div
+
+            </a>
+             <!-- Dropdown Menu Start -->
+             <div
+            v-if="item.children"
               class="overflow-hidden"
-              :class="(selected === 'Dashboard') ? 'block' :'hidden'"
+              :class="(selected === item.label) ? 'block' :'hidden'"
             >
               <ul class="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                <li>
+                <li v-for="child,j in item.children" :key="j">
                   <a
                     class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
                     :href="// @ts-ignore
-                    route('dashboard')"
+                    route(child.to)"
                     :class="
                         // @ts-ignore
-                        route().current('dashboard') ? '!text-white':''"
-                    >Analytics</a
+                        {'!text-white' : route().current(child.to)}"
+                    >{{child.label}}</a
                   >
                 </li>
               </ul>
             </div>
-            <!-- Dropdown Menu End -->
           </li>
-          <!-- Menu Item Dashboard -->
-
-          <!-- Menu Item Calendar -->
-          <li>
-
-            <a
-              class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-              :href="
-              //@ts-ignore
-              route('calendar')
-              "
-              @click="clickInDropdownMenu('Calendar')"
-              :class="{ 'bg-graydark dark:bg-meta-4': verifiedActiveItemMenu('calendar')}"
-            >
-
-              <CalendarIcon />
-
-              Calendar
-            </a>
-          </li>
-          <!-- Menu Item Calendar -->
-
-          <!-- Menu Item Profile -->
-          <li>
-            <a
-              class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-              :href="/*@ts-ignore*/
-                route('profile')"
-                @click="clickInDropdownMenu('Profile')"
-                :class="[
-                verifiedActiveItemMenu('profile') ?'bg-graydark dark:bg-meta-4' :'',
-                ]"
-            >
-              <ProfileIcon />
-
-              Profile
-            </a>
-          </li>
-          <!-- Menu Item Profile -->
-
-          <!-- Menu Item Forms -->
-          <li>
-            <a
-              class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-              href="#"
-              @click.prevent="clickInDropdownMenu('Forms')"
-              :class="{ 'bg-graydark dark:bg-meta-4': verifiedActiveItemMenu('Forms','formElements', 'formLayout') }"
-            >
-              <FormIcon />
-
-              Forms
-
-              <ArrowIcon
-                :class="{ 'rotate-180': (selected === 'Dashboard') }"
-              />
-            </a>
-
-            <!-- Dropdown Menu Start -->
-            <div
-              class="overflow-hidden"
-              :class="(selected === 'Forms') ? 'block' :'hidden'"
-            >
-              <ul class="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                <li>
-                  <a
-                    class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                    :href="//@ts-ignore
-                    route('formElements')"
-                    :class="verifiedActiveItemMenu('formElements' ) ? '!text-white': ''"
-                    >Form Elements</a
-                  >
-                </li>
-                <li>
-                  <a
-                    class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                    href="form-layout.html"
-                    :class="verifiedActiveItemMenu( 'formLayout') ? '!text-white':''"
-                    >Form Layout</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <!-- Dropdown Menu End -->
-          </li>
-          <!-- Menu Item Forms -->
-
-          <!-- Menu Item Tables -->
-          <li>
-            <a
-              class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-              href="tables.html"
-              @click="selected = (selected === 'Tables' ? '':'Tables')"
-              :class="{ 'bg-graydark dark:bg-meta-4': (selected === 'Tables') && (page === 'Tables') }"
-            >
-              <TableIcon />
-
-              Tables
-            </a>
-          </li>
-          <!-- Menu Item Tables -->
-
-          <!-- Menu Item Settings -->
-          <li>
-            <a
-              class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-              href="settings.html"
-              @click="selected = (selected === 'Settings' ? '':'Settings')"
-              :class="[
-                (selected === 'Settings') && (page === 'settings') ? 'bg-graydark dark:bg-meta-4': ''
-                ]"
-
-            >
-              <SettingIcon />
-
-              Settings
-            </a>
-          </li>
-          <!-- Menu Item Settings -->
         </ul>
       </div>
 
-      <!-- Others Group -->
-      <div>
-        <h3 class="mb-4 ml-4 text-sm font-medium text-bodydark2">OTHERS</h3>
-
-        <ul class="mb-6 flex flex-col gap-1.5">
-          <!-- Menu Item Chart -->
-          <li>
-            <a
-              class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-              href="chart.html"
-              @click="selected = (selected === 'Chart' ? '':'Chart')"
-              :class="{ 'bg-graydark dark:bg-meta-4': (selected === 'Chart') && (page === 'Chart') }"
-            >
-              <ChartIcon />
-
-              Chart
-            </a>
-          </li>
-          <!-- Menu Item Chart -->
-
-          <!-- Menu Item Ui Elements -->
-          <li>
-            <a
-              class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-              href="#"
-              @click.prevent="selected = (selected === 'UiElements' ? '':'UiElements')"
-              :class="{ 'bg-graydark dark:bg-meta-4': (selected === 'UiElements') || (page === 'alerts' || page === 'buttons' || page === 'card' || page === 'tabs' || page === 'modals') }"
-            >
-              <Gridcolspan />
-
-              UI Elements
-
-              <ArrowIcon
-                :class="{ 'rotate-180': (selected === 'Dashboard') }"
-              />
-            </a>
-
-            <!-- Dropdown Menu Start -->
-            <div
-              class="overflow-hidden"
-              :class="(selected === 'UiElements') ? 'block' :'hidden'"
-            >
-              <ul class="mt-4 mb-3 flex flex-col gap-2 pl-6">
-                <li>
-                  <a
-                    class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                    href="alerts.html"
-                    :class="page === 'alerts' && '!text-white'"
-                    >Alerts</a
-                  >
-                </li>
-                <li>
-                  <a
-                    class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                    href="buttons.html"
-                    :class="page === 'buttons' && '!text-white'"
-                    >Buttons</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <!-- Dropdown Menu End -->
-          </li>
-          <!-- Menu Item Ui Elements -->
-
-          <!-- Menu Item Auth Pages -->
-          <li>
-            <a
-              class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-              href="#"
-              @click.prevent="selected = (selected === 'AuthPages' ? '':'AuthPages')"
-              :class="{ 'bg-graydark dark:bg-meta-4': (selected === 'AuthPages') || (page === 'register' || page === 'login' || page === 'forgetPassword') }"
-            >
-              <AuthIcon />
-
-              Authentication
-
-              <ArrowIcon
-                :class="{ 'rotate-180': (selected === 'Dashboard') }"
-              />
-            </a>
-
-            <!-- Dropdown Menu Start -->
-            <div
-              class="overflow-hidden"
-              :class="(selected === 'AuthPages') ? 'block' :'hidden'"
-            >
-              <ul class="mt-4 mb-3 flex flex-col gap-2 pl-6">
-                <li>
-                  <a
-                    class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                    href="signin.html"
-                    :class="page === 'signin' && '!text-white'"
-                    >Sign In</a
-                  >
-                </li>
-                <li>
-                  <a
-                    class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                    href="signup.html"
-                    :class="page === 'signup' && '!text-white'"
-                    >Sign Up</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <!-- Dropdown Menu End -->
-          </li>
-          <!-- Menu Item Auth Pages -->
-        </ul>
-      </div>
     </nav>
-    <!-- Sidebar Menu -->
 
-    <!-- Promo Box -->
-    <!-- <div
-      class="mx-auto mb-10 w-full max-w-60 rounded-sm border border-strokedark bg-boxdark py-6 px-4 text-center shadow-default">
-      <h3 class="mb-1 font-semibold text-white">TailAdmin Pro</h3>
-      <p class="mb-4 text-xs">Get All Dashboards and 300+ UI Elements</p>
-      <a href="https://tailadmin.com/pricing" target="_blank" rel="nofollow"
-        class="flex items-center justify-center rounded-md bg-primary p-2 text-white hover:bg-opacity-95">
-        Purchase Now
-      </a>
-    </div> -->
-    <!-- Promo Box -->
   </div>
 </aside>
 
@@ -331,7 +89,7 @@
 
 <script setup lang="ts">
 import { helperStore } from '@/helper';
-import {  ref } from 'vue';
+import {   DefineComponent, ref } from 'vue';
 import { storeToRefs } from 'pinia'
 import DashboardIcon from '~icons/dashboardIcon.vue';
 import ArrowIcon from '~icons/ArrowIcon.vue';
@@ -347,13 +105,16 @@ import BurguerComponent from '~icons/BurguerComponent.vue'
 
 const selected = ref('')
 const page = ref('')
-// const openHamburgerMenu = inject('openHamburgerMenu')
 const helper = helperStore()
 
 const { openHamburgerMenu } = storeToRefs(helper)
 
-const clickInDropdownMenu = (item:string):void => {
-    selected.value = selected.value === item ? '' : item
+const clickInDropdownMenu = (e:Event,item:ItemMenu):void => {
+    if(item.to==='#'){
+        e.preventDefault()
+    }
+    const label = item.label
+    selected.value = selected.value === label ? '' : label
 }
 
 const verifiedActiveItemMenu = (...items: string[]): boolean => {
@@ -367,11 +128,118 @@ const verifiedActiveItemMenu = (...items: string[]): boolean => {
     return band
 }
 
+const getAllToForItem = (element: ItemMenu): string[] =>{
+    if(!element.children) return [...element.label]
+
+    return element.children.map((e)=>(e.label))
+}
+
+const itemsMenu: TitleMenu[] = [
+    {
+        title: 'Menu',
+        items: [
+            {
+                label: 'Dashboard',
+                to: '#',
+                icon: DashboardIcon,
+                children: [
+                    {
+                        label: 'Analytics',
+                        to: 'dashboard',
+                    }
+                ]
+            },
+            {
+                label: 'Calendar',
+                to: 'calendar',
+                icon: CalendarIcon
+            },
+            {
+                label: 'Profile',
+                to: 'profile',
+                icon: ProfileIcon
+            },
+            {
+                label: 'Forms',
+                to: '#',
+                icon: FormIcon,
+                children: [
+                    {
+                        label: 'Form Elements',
+                        // to: 'form-layout.html',
+                        to: 'formElements',
+                    },
+                    {
+                        label: 'Form Layout',
+                        to: 'formLayout',
+                        // to: 'dashboard',
+                    }
+                ]
+            },
+            {
+                label: 'Tables',
+                to: 'tables',
+                icon: TableIcon
+            },
+            {
+                label: 'Settings',
+                to: 'settings',
+                icon: SettingIcon
+            },
+        ]
+    },
+    {
+        title: 'Others',
+        items: [
+            {
+                label: 'Chart',
+                to: 'charts',
+                icon: ChartIcon
+            },
+            {
+                label: 'UI Elements',
+                to: '#',
+                icon: Gridcolspan,
+                children: [
+                    {
+                        label: 'Alerts',
+                        to: 'alerts',
+                    },
+                    {
+                        label: 'Buttons',
+                        to: 'buttons',
+                    }
+                ]
+            },
+            {
+                label: 'Authentication',
+                to: '#',
+                icon: AuthIcon,
+                children: [
+                    {
+                        label: 'Sign In',
+                        to: 'dashboard',
+                    },
+                    {
+                        label: 'Sign Up',
+                        to: 'register',
+                    }
+                ]
+            },
+        ]
+    }
+]
 interface ItemMenu {
     label:string
     to: string
-    icon: Blob
+    icon?: DefineComponent<{}, {}, any>
     children?: ItemMenu[]
+    title?: string
+}
+
+interface TitleMenu{
+    title?: string
+    items: ItemMenu[]
 }
 </script>
 
