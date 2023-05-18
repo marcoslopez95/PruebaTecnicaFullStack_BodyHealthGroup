@@ -2,59 +2,45 @@
 
 namespace Tests\Feature;
 
-use App\Providers\RouteServiceProvider;
+use App\Models\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\Fortify\Features;
-use Laravel\Jetstream\Jetstream;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
-    use RefreshDatabase;
+    use WithFaker, DatabaseTransactions;
 
-    public function test_registration_screen_can_be_rendered(): void
+    /**
+     * A basic feature test example.
+     */
+    public function test_create_user_for_api(): void
     {
-        if (! Features::enabled(Features::registration())) {
-            $this->markTestSkipped('Registration support is not enabled.');
-
-            return;
-        }
-
-        $response = $this->get('/register');
-
-        $response->assertStatus(200);
-    }
-
-    public function test_registration_screen_cannot_be_rendered_if_support_is_disabled(): void
-    {
-        if (Features::enabled(Features::registration())) {
-            $this->markTestSkipped('Registration support is enabled.');
-
-            return;
-        }
-
-        $response = $this->get('/register');
-
-        $response->assertStatus(404);
-    }
-
-    public function test_new_users_can_register(): void
-    {
-        if (! Features::enabled(Features::registration())) {
-            $this->markTestSkipped('Registration support is not enabled.');
-
-            return;
-        }
-
-        $response = $this->post('/register', [
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
-            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature(),
+        $response = $this->postJson(route('api.register'), [
+            'name'     => $name = $this->faker->name(),
+            'email'    => $email = $this->faker->unique()->email(),
+            'password' => $password = 'Test.123',
+            'password_confirmation' => $password,
         ]);
 
-        $this->assertAuthenticated();
-        $response->assertRedirect(RouteServiceProvider::HOME);
+        $response->assertNoContent();
+
+        $user = User::firstWhere('email',$email);
+        $this->assertModelExists($user);
+    }
+
+    public function test_not_create_user_for_api_because_problem_with_validations(): void
+    {
+        $response = $this->postJson(route('api.register'), []);
+
+        $errors = [
+            'name',
+            'email',
+            'password',
+        ];
+        $response->assertJsonValidationErrors($errors);
+
     }
 }
