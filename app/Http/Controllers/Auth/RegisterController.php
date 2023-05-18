@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Spatie\Permission\Models\Role;
 
 class RegisterController extends Controller
 {
@@ -22,6 +23,7 @@ class RegisterController extends Controller
                 'password' => Hash::make($request->password)
             ]);
             $user = User::create($request->only(['name','email','password']));
+            $user->assignRole(Role::firstWhere('name','=','User')->id);
         } catch (Exception $e) {
             DB::rollBack();
             return customResponseException($e, __('errors.sistem-error'), 500);

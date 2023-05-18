@@ -27,8 +27,10 @@ class RegistrationTest extends TestCase
 
         $response->assertNoContent();
 
-        $user = User::firstWhere('email',$email);
+        $user = User::firstWhere('email', $email);
         $this->assertModelExists($user);
+        $this->assertCount(1, $user->roles);
+        $this->assertEquals('User', $user->roles[0]->name);
     }
 
     public function test_not_create_user_for_api_because_problem_with_validations(): void
@@ -41,6 +43,5 @@ class RegistrationTest extends TestCase
             'password',
         ];
         $response->assertJsonValidationErrors($errors);
-
     }
 }
