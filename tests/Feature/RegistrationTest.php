@@ -18,7 +18,7 @@ class RegistrationTest extends TestCase
      */
     public function test_create_user_for_api(): void
     {
-        $response = $this->postJson(route('api.register'), [
+        $response = $this->postJson(route('api.v1.register'), [
             'name'     => $name = $this->faker->name(),
             'email'    => $email = $this->faker->unique()->email(),
             'password' => $password = 'Test.123',
@@ -35,7 +35,7 @@ class RegistrationTest extends TestCase
 
     public function test_not_create_user_for_api_because_problem_with_validations(): void
     {
-        $response = $this->postJson(route('api.register'), []);
+        $response = $this->postJson(route('api.v1.register'), []);
 
         $errors = [
             'name',

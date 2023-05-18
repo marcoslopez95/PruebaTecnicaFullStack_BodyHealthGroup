@@ -18,7 +18,7 @@ class LoginTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->attach([$role->id]);
 
-        $response = $this->postJson(route('api.login'), [
+        $response = $this->postJson(route('api.v1.login'), [
             'email'    => $user->email,
             'password' => 'password'
         ]);
@@ -33,7 +33,7 @@ class LoginTest extends TestCase
 
     public function test_not_login_for_api_because_problem_with_validations(): void
     {
-        $response = $this->postJson(route('api.register'), []);
+        $response = $this->postJson(route('api.v1.register'), []);
 
         $errors = [
             'email',
