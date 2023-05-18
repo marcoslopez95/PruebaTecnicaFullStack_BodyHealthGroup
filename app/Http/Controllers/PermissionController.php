@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\Security\PermissionCreateRequest;
+use App\Http\Requests\Admin\Security\PermissionUpdateRequest;
+use App\Http\Resources\Admin\Security\PermissionResource;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +19,11 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = Permission::all();
+
+        return customResponseSucessfull(
+            __('generals.success-index', ['name' => 'Permission']),
+            PermissionResource::collection($permissions)
+        );
     }
 
     /**
@@ -38,23 +45,34 @@ class PermissionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Permission $permission)
     {
-        //
+        return customResponseSucessfull(
+            __('generals.success-show', ['name' => 'Permission']),
+            PermissionResource::make($permission)
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PermissionUpdateRequest $request, Permission $permission)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $permission->update($request->only(['name', 'guard_name']));
+        } catch (Exception $e) {
+            DB::rollBack();
+            return customResponseException($e, __('errors.sistem-error'), 500);
+        }
+        DB::commit();
+        return response()->noContent();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Permission $permission)
     {
         //
     }
