@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\Admin\Security\PermissionController;
+use App\Http\Controllers\Admin\Security\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +30,5 @@ Route::group([
     'prefix' => 'admin/security'
 ], function () {
     Route::apiResource('permissions', PermissionController::class);
+    Route::apiResource('roles', RoleController::class);
 });

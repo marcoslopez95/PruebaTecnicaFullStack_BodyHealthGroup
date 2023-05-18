@@ -1,39 +1,39 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\Security;
 
-use App\Http\Requests\Admin\Security\PermissionCreateRequest;
-use App\Http\Requests\Admin\Security\PermissionUpdateRequest;
-use App\Http\Resources\Admin\Security\PermissionResource;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Security\RoleCreateRequest;
+use App\Http\Requests\Admin\Security\RoleUpdateRequest;
+use App\Http\Resources\Admin\Security\RoleResource;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
-class PermissionController extends Controller
+class RoleController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $permissions = Permission::all();
+        $roles = Role::all();
 
         return customResponseSucessfull(
-            __('generals.success-index', ['name' => 'Permission']),
-            PermissionResource::collection($permissions)
+            __('generals.success-index', ['name' => 'Roles']),
+            RoleResource::collection($roles)
         );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PermissionCreateRequest $request)
+    public function store(RoleCreateRequest $request)
     {
         DB::beginTransaction();
         try {
-            Permission::create($request->only(['name', 'guard_name']));
+            Role::create($request->only(['name', 'guard_name']));
         } catch (Exception $e) {
             DB::rollBack();
             return customResponseException($e, __('errors.sistem-error'), 500);
@@ -45,22 +45,22 @@ class PermissionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Permission $permission)
+    public function show(Role $role)
     {
         return customResponseSucessfull(
             __('generals.success-show', ['name' => 'Permission']),
-            PermissionResource::make($permission)
+            RoleResource::make($role)
         );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(PermissionUpdateRequest $request, Permission $permission)
+    public function update(RoleUpdateRequest $request, Role $role)
     {
         DB::beginTransaction();
         try {
-            $permission->update($request->only(['name', 'guard_name']));
+            $role->update($request->only(['name', 'guard_name']));
         } catch (Exception $e) {
             DB::rollBack();
             return customResponseException($e, __('errors.sistem-error'), 500);
@@ -72,7 +72,7 @@ class PermissionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Permission $permission)
+    public function destroy(Role $role)
     {
         //
     }
