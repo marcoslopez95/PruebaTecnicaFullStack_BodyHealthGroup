@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\Config;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Config\RegionCreateRequest;
 use App\Http\Requests\Admin\Config\RegionUpdateRequest;
+use App\Http\Resources\Admin\Config\RegionResource;
 use App\Models\Region;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class RegionController extends Controller
 {
@@ -13,7 +17,12 @@ class RegionController extends Controller
      */
     public function index()
     {
-        //
+        $regions = Region::all();
+
+        return customResponseSucessfull(
+            __('generals.success-index', ['name' => 'Region']),
+            RegionResource::collection($regions)
+        );
     }
 
     /**
@@ -21,7 +30,15 @@ class RegionController extends Controller
      */
     public function store(RegionCreateRequest $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            Region::create($request->only(['name']));
+        } catch (Exception $e) {
+            DB::rollBack();
+            return customResponseException($e, __('errors.sistem-error'), 500);
+        }
+        DB::commit();
+        return response()->noContent();
     }
 
     /**
@@ -29,7 +46,10 @@ class RegionController extends Controller
      */
     public function show(Region $region)
     {
-        //
+        return customResponseSucessfull(
+            __('generals.success-show', ['name' => 'Region']),
+            RegionResource::make($region)
+        );
     }
 
     /**
@@ -37,7 +57,15 @@ class RegionController extends Controller
      */
     public function update(RegionUpdateRequest $request, Region $region)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $region->update($request->only(['name']));
+        } catch (Exception $e) {
+            DB::rollBack();
+            return customResponseException($e, __('errors.sistem-error'), 500);
+        }
+        DB::commit();
+        return response()->noContent();
     }
 
     /**

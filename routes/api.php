@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Security\PermissionController;
 use App\Http\Controllers\Admin\Security\RoleController;
 use App\Http\Controllers\Admin\Security\UserController;
 use App\Http\Controllers\Admin\Config\PublicationCategoryController;
+use App\Http\Controllers\Admin\Config\RegionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,4 +42,5 @@ Route::group([
     'prefix' => 'admin/config'
 ], function () {
     Route::apiResource('publication-categories', PublicationCategoryController::class);
+    Route::apiResource('regions', RegionController::class);
 });

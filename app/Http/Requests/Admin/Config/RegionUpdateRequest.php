@@ -11,7 +11,7 @@ class RegionUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return isAdmin();
     }
 
     /**
@@ -22,7 +22,7 @@ class RegionUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|unique:regions,name,'. $this->region->id.',id',
         ];
     }
 }
