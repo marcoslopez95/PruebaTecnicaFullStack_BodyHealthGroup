@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\Security\PermissionController;
 use App\Http\Controllers\Admin\Security\RoleController;
 use App\Http\Controllers\Admin\Security\UserController;
+use App\Http\Controllers\Admin\Config\PublicationCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,4 +34,11 @@ Route::group([
     Route::apiResource('permissions', PermissionController::class);
     Route::apiResource('roles', RoleController::class);
     Route::apiResource('users', UserController::class);
+});
+
+Route::group([
+    'middleware' => ['role:Admin','auth:sanctum'],
+    'prefix' => 'admin/config'
+], function () {
+    Route::apiResource('publication-categories', PublicationCategoryController::class);
 });
