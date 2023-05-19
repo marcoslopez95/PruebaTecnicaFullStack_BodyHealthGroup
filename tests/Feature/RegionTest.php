@@ -64,6 +64,7 @@ class RegionTest extends TestCase
                 "data" => [
                     'id' => $region->id,
                     'name' => $region->name,
+                    'isDeleted'  => $region->isDeleted,
                 ],
                 "message" => __('generals.success-show', ['name' => 'Region'])
             ]);
@@ -81,8 +82,9 @@ class RegionTest extends TestCase
                 "data" => $regions->map(function (Region $region) {
                     return [
                         'id'         => $region->id,
-                        'name'       => $region->name
-                    ];
+                        'name'       => $region->name,
+                        'isDeleted'  => $region->isDeleted,
+                ];
                 })->toArray(),
                 "message" => __('generals.success-index', ['name' => 'Region'])
             ]);

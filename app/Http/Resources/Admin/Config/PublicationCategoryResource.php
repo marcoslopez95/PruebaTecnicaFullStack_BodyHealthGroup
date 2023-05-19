@@ -17,7 +17,8 @@ class PublicationCategoryResource extends JsonResource
         return [
             'id' => $this->resource->id,
             'name' => $this->resource->name,
-            'description' => $this->resource->description
+            'description' => $this->resource->description,
+            'isDeleted' => $this->resource->isDeleted,
         ];
     }
 }

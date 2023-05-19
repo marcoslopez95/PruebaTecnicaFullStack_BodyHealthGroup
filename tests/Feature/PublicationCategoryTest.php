@@ -65,7 +65,8 @@ class PublicationCategoryTest extends TestCase
                 "data" => [
                     'id' => $publicationCategory->id,
                     'name' => $publicationCategory->name,
-                    'description' => $publicationCategory->description
+                    'description' => $publicationCategory->description,
+                    'isDeleted'  => $publicationCategory->isDeleted,
                 ],
                 "message" => __('generals.success-show', ['name' => 'Publication Category'])
             ]);
@@ -85,8 +86,9 @@ class PublicationCategoryTest extends TestCase
                     return [
                         'id' => $publicationCategory->id,
                         'name' => $publicationCategory->name,
-                        'description' => $publicationCategory->description
-                    ];
+                        'description' => $publicationCategory->description,
+                        'isDeleted'  => $publicationCategory->isDeleted,
+                ];
                 })->toArray(),
                 "message" => __('generals.success-index', ['name' => 'Publication Category'])
             ]);

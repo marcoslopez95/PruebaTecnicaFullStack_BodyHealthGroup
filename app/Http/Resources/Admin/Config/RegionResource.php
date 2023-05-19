@@ -17,6 +17,7 @@ class RegionResource extends JsonResource
         return [
             'id' => $this->resource->id,
             'name' => $this->resource->name,
+            'isDeleted' => $this->resource->isDeleted,
         ];
     }
 }

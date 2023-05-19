@@ -75,6 +75,7 @@ class UserTest extends TestCase
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
+                    'isDeleted' => $user->isDeleted,
                     'role' => [
                         'id'   => $user->roles[0]->id,
                         'name' => $user->roles[0]->name,
@@ -102,6 +103,7 @@ class UserTest extends TestCase
                         'name'       => $userIterable->name,
                         'email'      => $userIterable->email,
                         'created_at' => (string) \Carbon\Carbon::parse($userIterable->created_at)->format('m-d-Y'),
+                        'isDeleted' => $userIterable->isDeleted,
                         'role'  => [
                             'id'   => $userIterable->roles[0]->id,
                             'name' => $userIterable->roles[0]->name,

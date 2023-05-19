@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'name'       => $this->resource->name,
             'email'      => $this->resource->email,
             'created_at' => (string) Carbon::parse($this->resource->created_at)->format('m-d-Y'),
+            'isDeleted'  => $this->resource->isDeleted,
             'role'       => $this->whenLoaded('roles', fn()=> RoleResource::make($this->resource->roles[0])),
         ];
     }
