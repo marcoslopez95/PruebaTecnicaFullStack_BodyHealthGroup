@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\UnauthorizedException;
@@ -24,6 +25,7 @@ class LoginController extends Controller
                 throw new UnauthorizedException(__('auth.failed'), Response::HTTP_UNAUTHORIZED);
             }
             $tokenModel = $user->createToken('apiToken');
+            Auth::login($user);
         } catch (UnauthorizedException $e) {
             return customResponseError(
                 $e->getCode(),
