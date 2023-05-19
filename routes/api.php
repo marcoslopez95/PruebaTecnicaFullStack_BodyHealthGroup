@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Config\ExternalReferenceController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\Security\PermissionController;
@@ -49,4 +50,6 @@ Route::group([
     Route::apiResource('regions', RegionController::class);
     Route::put('regions/{region}/restore', [RegionController::class,'restore'])->name('regions.restore');
 
+    Route::apiResource('external-references', ExternalReferenceController::class);
+    Route::put('external-references/{external_reference}/restore', [ExternalReferenceController::class,'restore'])->name('external-references.restore');
 });

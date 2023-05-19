@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\IsDeletedModelTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +23,7 @@ class User extends Authenticatable
     use HasRoles;
     use TwoFactorAuthenticatable;
     use SoftDeletes;
+    use IsDeletedModelTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -64,10 +66,4 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function isDeleted(): Attribute
-    {
-        return Attribute::make(
-            get: fn()=> is_null($this->deleted_at)
-        );
-    }
 }

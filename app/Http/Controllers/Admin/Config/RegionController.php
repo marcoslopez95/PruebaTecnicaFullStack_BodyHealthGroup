@@ -17,7 +17,7 @@ class RegionController extends Controller
      */
     public function index()
     {
-        $regions = Region::all();
+        $regions = Region::withTrashed()->get();
 
         return customResponseSucessfull(
             __('generals.success-index', ['name' => 'Region']),

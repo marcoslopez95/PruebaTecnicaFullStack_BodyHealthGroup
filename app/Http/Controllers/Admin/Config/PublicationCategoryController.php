@@ -17,7 +17,7 @@ class PublicationCategoryController extends Controller
      */
     public function index()
     {
-        $publicationCategories = PublicationCategory::all();
+        $publicationCategories = PublicationCategory::withTrashed()->get();
 
         return customResponseSucessfull(
             __('generals.success-index', ['name' => 'Permission']),
