@@ -113,7 +113,7 @@ class UserTest extends TestCase
             ]);
     }
 
-    public function test_update_user_with_guard_name_for_api(): void
+    public function test_update_user_for_api(): void
     {
         $role = Role::all()->random()->first();
         $user = User::factory()->create();
@@ -147,5 +147,32 @@ class UserTest extends TestCase
             'role_id',
         ];
         $response->assertJsonValidationErrors($errors);
+    }
+
+    public function test_destroy_user_for_api(): void
+    {
+        $role = Role::all()->random()->first();
+        $user = User::factory()->create();
+        $user->roles()->attach([$role->id]);
+
+        $response = $this->deleteJson(route('api.v1.users.destroy', ['user' => $user->id]));
+
+        $response->assertNoContent();
+        $user->refresh();
+        $this->assertSoftDeleted($user);
+    }
+
+    public function test_restore_user_for_api(): void
+    {
+        $role = Role::all()->random()->first();
+        $user = User::factory()->create();
+        $user->roles()->attach([$role->id]);
+        $user->delete();
+        $response = $this->putJson(route('api.v1.users.restore', ['user' => $user->id]));
+
+        $response->assertNoContent();
+        $user->refresh();
+        $this->assertModelExists($user);
+        $this->assertNull($user->deleted_at);
     }
 }

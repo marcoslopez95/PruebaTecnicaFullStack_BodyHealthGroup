@@ -34,7 +34,9 @@ Route::group([
 ], function () {
     Route::apiResource('permissions', PermissionController::class);
     Route::apiResource('roles', RoleController::class);
+
     Route::apiResource('users', UserController::class);
+    Route::put('users/{user}/restore', [UserController::class,'restore'])->name('users.restore');
 });
 
 Route::group([
@@ -42,5 +44,9 @@ Route::group([
     'prefix' => 'admin/config'
 ], function () {
     Route::apiResource('publication-categories', PublicationCategoryController::class);
+    Route::put('publication-categories/{publication_category}/restore', [PublicationCategoryController::class,'restore'])->name('publication-categories.restore');
+
     Route::apiResource('regions', RegionController::class);
+    Route::put('regions/{region}/restore', [RegionController::class,'restore'])->name('regions.restore');
+
 });

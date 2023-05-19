@@ -112,4 +112,26 @@ class RegionTest extends TestCase
         ];
         $response->assertJsonValidationErrors($errors);
     }
+
+    public function test_destroy_region_for_api(): void
+    {
+        $region = Region::factory()->create();
+        $response = $this->deleteJson(route('api.v1.regions.destroy', ['region' => $region->id]));
+
+        $response->assertNoContent();
+        $region->refresh();
+        $this->assertSoftDeleted($region);
+    }
+
+    public function test_restore_region_for_api(): void
+    {
+        $region = Region::factory()->create();
+
+        $response = $this->putJson(route('api.v1.regions.restore', ['region' => $region->id]));
+
+        $response->assertNoContent();
+        $region->refresh();
+        $this->assertModelExists($region);
+        $this->assertNull($region->deleted_at);
+    }
 }

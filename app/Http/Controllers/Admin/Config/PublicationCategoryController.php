@@ -73,6 +73,16 @@ class PublicationCategoryController extends Controller
      */
     public function destroy(PublicationCategory $publicationCategory)
     {
-        //
+        $publicationCategory->delete();
+
+        return response()->noContent();
+    }
+
+    public function restore(int $publicationCategory)
+    {
+        $publicationCategory = PublicationCategory::withTrashed()->find($publicationCategory);
+        $publicationCategory->restore();
+
+        return response()->noContent();
     }
 }

@@ -118,4 +118,26 @@ class PublicationCategoryTest extends TestCase
         ];
         $response->assertJsonValidationErrors($errors);
     }
+
+    public function test_destroy_publication_category_for_api(): void
+    {
+        $publicationCategory = PublicationCategory::factory()->create();
+        $response = $this->deleteJson(route('api.v1.publication-categories.destroy', ['publication_category' => $publicationCategory->id]));
+
+        $response->assertNoContent();
+        $publicationCategory->refresh();
+        $this->assertSoftDeleted($publicationCategory);
+    }
+
+    public function test_restore_publication_category_for_api(): void
+    {
+        $publicationCategory = PublicationCategory::factory()->create();
+
+        $response = $this->putJson(route('api.v1.publication-categories.restore', ['publication_category' => $publicationCategory->id]));
+
+        $response->assertNoContent();
+        $publicationCategory->refresh();
+        $this->assertModelExists($publicationCategory);
+        $this->assertNull($publicationCategory->deleted_at);
+    }
 }

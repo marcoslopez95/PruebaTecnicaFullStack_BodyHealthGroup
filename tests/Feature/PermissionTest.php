@@ -164,4 +164,39 @@ class PermissionTest extends TestCase
         ];
         $response->assertJsonValidationErrors($errors);
     }
+
+    public function test_destroy_permission_for_api(): void
+    {
+        $permission = Permission::create([
+            'name' => $this->faker->word(),
+            'guard_name' => $this->faker->word()
+        ]);
+        $response = $this->deleteJson(route('api.v1.permissions.destroy', ['permission' => $permission->id]));
+
+        $response->assertNoContent();
+    }
+
+    public function test_not_destroy_permission_for_api_because_validations(): void
+    {
+        $permission = Permission::create([
+            'name' => $this->faker->word(),
+            'guard_name' => 'web'
+        ]);
+        $role = Role::create([
+            'name' => $this->faker->word(),
+            'guard_name' => 'web'
+        ]);
+        $role->givePermissionTo($permission);
+
+        $response = $this->deleteJson(route('api.v1.permissions.destroy', ['permission' => $permission->id]));
+
+        $response->assertStatus(422)
+            ->assertSimilarJson(
+                [
+                    'code' => 422,
+                    'title' => __('generals.errors-validations.destroy', ['name' => 'Role']),
+                    'errors' => __('generals.errors-validations.destroy', ['name' => 'Role']),
+                ]
+            );
+    }
 }

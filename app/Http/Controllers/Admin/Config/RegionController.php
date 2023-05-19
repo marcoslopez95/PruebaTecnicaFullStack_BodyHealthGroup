@@ -73,6 +73,16 @@ class RegionController extends Controller
      */
     public function destroy(Region $region)
     {
-        //
+        $region->delete();
+
+        return response()->noContent();
+    }
+
+    public function restore(int $region)
+    {
+        $user = Region::withTrashed()->find($region);
+        $user->restore();
+
+        return response()->noContent();
     }
 }

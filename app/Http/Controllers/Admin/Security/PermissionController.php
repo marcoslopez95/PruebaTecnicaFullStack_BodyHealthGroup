@@ -75,6 +75,32 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
-        //
+        if (self::validatePermissionsForDestroy($permission)) {
+            return customResponseError(
+                422,
+                __('generals.errors-validations.destroy', ['name' => 'Role']),
+                __('generals.errors-validations.destroy', ['name' => 'Role']),
+                422,
+            );
+        }
+        $permission->delete();
+
+        return response()->noContent();
+    }
+
+    private function validatePermissionsForDestroy(Permission $permission): bool
+    {
+        $users = DB::table('role_has_permissions')
+                ->select()
+                ->where('permission_id', $permission->id)
+                ->get()
+                ->count() > 0;
+        $permissions = DB::table('model_has_permissions')
+                ->select()
+                ->where('permission_id', $permission->id)
+                ->get()
+                ->count() > 0;
+
+        return $users || $permissions;
     }
 }

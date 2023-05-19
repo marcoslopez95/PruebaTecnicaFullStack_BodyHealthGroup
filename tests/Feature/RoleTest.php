@@ -162,4 +162,37 @@ class RoleTest extends TestCase
         ];
         $response->assertJsonValidationErrors($errors);
     }
+
+    public function test_destroy_role_for_api(): void
+    {
+        $role = Role::create([
+            'name' => $this->faker->word(),
+            'guard_name' => $this->faker->word()
+        ]);
+
+        $response = $this->deleteJson(route('api.v1.roles.destroy', ['role' => $role->id]));
+
+        $response->assertNoContent();
+    }
+
+    public function test_not_destroy_role_for_api_because_validations(): void
+    {
+        $role = Role::create([
+            'name' => $this->faker->word(),
+            'guard_name' => 'web'
+        ]);
+        $user = User::factory()->create();
+        $user->assignRole($role);
+
+        $response = $this->deleteJson(route('api.v1.roles.destroy', ['role' => $role->id]));
+
+        $response->assertStatus(422)
+            ->assertSimilarJson(
+                [
+                    'code' => 422,
+                    'title' => __('generals.errors-validations.destroy', ['name' => 'Role']),
+                    'errors' => __('generals.errors-validations.destroy', ['name' => 'Role']),
+                ]
+            );
+    }
 }

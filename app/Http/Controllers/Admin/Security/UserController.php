@@ -83,6 +83,16 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return response()->noContent();
+    }
+
+    public function restore(int $user)
+    {
+        $user = User::withTrashed()->find($user);
+        $user->restore();
+
+        return response()->noContent();
     }
 }
