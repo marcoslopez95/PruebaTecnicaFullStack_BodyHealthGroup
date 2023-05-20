@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\Security\RoleController;
 use App\Http\Controllers\Admin\Security\UserController;
 use App\Http\Controllers\Admin\Config\PublicationCategoryController;
 use App\Http\Controllers\Admin\Config\RegionController;
+use App\Http\Controllers\Writer\PublicationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,4 +53,7 @@ Route::group([
 
     Route::apiResource('external-references', ExternalReferenceController::class);
     Route::put('external-references/{external_reference}/restore', [ExternalReferenceController::class,'restore'])->name('external-references.restore');
+
+    Route::apiResource('publications', PublicationController::class);
+    Route::put('publications/{publication}/restore', [PublicationController::class,'restore'])->name('publications.restore');
 });

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\Config;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Config\ExternalReferenceCreateRequest;
 use App\Http\Requests\Admin\Config\ExternalReferenceUpdateRequest;
-use App\Http\Resources\ExternalReferenceResource;
+use App\Http\Resources\Admin\Config\ExternalReferenceResource;
 use App\Models\ExternalReference;
 use Exception;
 use Illuminate\Support\Facades\DB;

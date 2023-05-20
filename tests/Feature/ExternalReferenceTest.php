@@ -65,6 +65,7 @@ class ExternalReferenceTest extends TestCase
                 "data" => [
                     'id' => $ExternalReference->id,
                     'name' => $ExternalReference->name,
+                    'url' => $ExternalReference->url,
                     'isDeleted'  => $ExternalReference->isDeleted,
                 ],
                 "message" => __('generals.success-show', ['name' => 'External References'])
@@ -84,6 +85,7 @@ class ExternalReferenceTest extends TestCase
                     return [
                         'id'         => $ExternalReference->id,
                         'name'       => $ExternalReference->name,
+                        'url'       => $ExternalReference->url,
                         'isDeleted'  => $ExternalReference->isDeleted,
                 ];
                 })->toArray(),
