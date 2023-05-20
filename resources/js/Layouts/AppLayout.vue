@@ -1,12 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted,provide } from 'vue';
-import { Head, Link, router } from '@inertiajs/vue3';
-// import ApplicationMark from '@/Components/ApplicationMark.vue';
-// import Banner from '@/Components/Banner.vue';
-// import Dropdown from '@/Components/Dropdown.vue';
-// import DropdownLink from '@/Components/DropdownLink.vue';
-// import NavLink from '@/Components/NavLink.vue';
-// import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import { ref, onMounted } from 'vue';
+import { Head } from '@inertiajs/vue3';
 import Preloader from './Preloader.vue'
 import Sidebar from './Sidebar.vue'
 import HeaderComponent from './HeaderComponent.vue'
@@ -16,27 +10,15 @@ import "jsvectormap/dist/css/jsvectormap.css";
 import "flatpickr/dist/flatpickr.min.css";
 import "@/../css/style.css";
 import flatpickr from "flatpickr";
-
+// @ts-ignore
 import Alpine from "alpinejs";
+// @ts-ignore
 import intersect from "@alpinejs/intersect";
 
 defineProps({
     title: String,
 });
 
-const showingNavigationDropdown = ref(false);
-
-const switchToTeam = (team) => {
-    router.put(route('current-team.update'), {
-        team_id: team.id,
-    }, {
-        preserveState: false,
-    });
-};
-
-const logout = () => {
-    router.post(route('logout'));
-};
 const loading = ref(true)
 
 onMounted(() => {
@@ -62,12 +44,16 @@ flatpickr(".datepicker", {
         '<svg class="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M1.4 10.8L0 9.4l4-4-4-4L1.4 0l5.4 5.4z" /></svg>',
     onReady: (selectedDates, dateStr, instance) => {
         // eslint-disable-next-line no-param-reassign
+        // @ts-ignore
         instance.element.value = dateStr.replace("to", "-");
         const customClass = instance.element.getAttribute("data-class");
+        // @ts-ignore
+
         instance.calendarContainer.classList.add(customClass);
     },
     onChange: (selectedDates, dateStr, instance) => {
         // eslint-disable-next-line no-param-reassign
+        // @ts-ignore
         instance.element.value = dateStr.replace("to", "-");
     },
 });

@@ -7,6 +7,8 @@ import EyeIcon from './../../svg-components/EyeIcon.vue'
 import EyeOffIcon from './../../svg-components/EyeOffIcon.vue'
 import LoadinIcon from './../../svg-components/LoadingIcon.vue'
 import LangComponent from '@/Layouts/LangComponent.vue';
+import "@/../css/style.css";
+
 const { t } = useI18n()
 defineProps({
     canResetPassword: Boolean,
@@ -204,7 +206,8 @@ const showPassword = ref(false)
                             <div class="mt-6 text-center">
                                 <p class="font-medium">
                                     {{ $t('views.login.donot-have-account') }}
-                                    <a :href="route('register')" class="text-primary">
+                                    <a :href="//@ts-ignore
+                                    route('register')" class="text-primary">
                                     {{ $t('views.login.register') }}
                                     </a>
                                 </p>
