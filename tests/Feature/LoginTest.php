@@ -27,7 +27,7 @@ class LoginTest extends TestCase
             ->assertJsonFragment([
                 "message" => __('auth.login.successfull')
             ])
-            ->assertJsonPath('data', fn(string $token) => strlen($token) >= 35)
+            ->assertJsonPath('data.token', fn(string $token) => strlen($token) >= 35)
             ;
     }
 

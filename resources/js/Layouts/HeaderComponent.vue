@@ -61,8 +61,8 @@
                 <div class="relative">
                     <a class="flex items-center gap-4" href="#" @click.prevent="dropdownOpen = !dropdownOpen">
                         <span class="hidden text-right lg:block">
-                            <span class="block text-sm font-medium text-black dark:text-white">Thomas Anree</span>
-                            <span class="block text-xs font-medium">UX Designer</span>
+                            <span class="block text-sm font-medium text-black dark:text-white"> {{ user.name }} </span>
+                            <span class="block text-xs font-medium"> {{ user.roles[0].name }} </span>
                         </span>
 
                         <span class="h-12 w-12 rounded-full">
@@ -171,11 +171,13 @@ const logout = () => {
         //@ts-ignore
         .post(route('logout'))
         .then(()=>{
+            localStorage.removeItem('user')
             //@ts-ignore
             router.get(route('login'))
         })
 }
 
+const user = JSON.parse(localStorage.getItem('user')!)
 </script>
 
 <style scoped></style>

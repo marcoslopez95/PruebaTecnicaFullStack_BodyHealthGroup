@@ -19,15 +19,16 @@ const form = ref({
     password: '',
 });
 
-const submit = () => {
+const submit = async () => {
     //@ts-ignore
     const url = route('api.v1.login')
-    helper
-        .http(url,'post',{data:form.value}, t('views.login.login'))
-        .then(()=> {
-            //@ts-ignore
-            router.get(route('dashboard'))
-        })
+    await helper.http(url,'post',{data:form.value}, t('views.login.login'))
+    //@ts-ignore
+    const user = (await helper.http(route('api.v1.get-user-auth'),'get')).data
+
+    localStorage.setItem('user',JSON.stringify(user))
+    //@ts-ignore
+    router.get(route('dashboard'))
 };
 
 const showPassword = ref(false)
@@ -42,7 +43,7 @@ const showPassword = ref(false)
             <h2 class="text-title-md2 font-bold text-black dark:text-white">
                 {{  $t('views.login.sign-in-title') }}
             </h2>
-            <LangComponent />
+            <!-- <LangComponent /> -->
             <nav>
                 <ol class="flex items-center gap-2">
                     <li><a class="font-medium" :href=" //@ts-ignore
