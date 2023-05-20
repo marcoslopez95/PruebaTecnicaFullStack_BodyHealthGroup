@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -33,10 +34,16 @@ class RoleTest extends TestCase
     {
 
         // ----- Create a Role with guard_name
+        $permission = Permission::create([
+            'name' => $this->faker->word(),
+            'guard_name' => 'web'
+        ]);
+
         $response = $this
             ->postJson(route('api.v1.roles.store'), [
                 'name'       => $name = $this->faker->word(),
                 'guard_name' => $guard_name = $this->faker->word(),
+                'permissions' => [$permission->id]
             ]);
 
         $response->assertNoContent();
@@ -44,13 +51,20 @@ class RoleTest extends TestCase
         $role = Role::firstWhere('name', $name);
         $this->assertModelExists($role);
         $this->assertEquals($guard_name, $role->guard_name);
+
+        $this->assertEquals($permission->name, $role->permissions[0]->name);
     }
 
     public function test_create_roles_without_guard_name_for_api(): void
     {
+        $permission = Permission::create([
+            'name' => $this->faker->word(),
+            'guard_name' => 'web'
+        ]);
         $response = $this
             ->postJson(route('api.v1.roles.store'), [
                 'name'       => $name = $this->faker->word(),
+                'permissions' => [$permission->id]
             ]);
 
         $response->assertNoContent();
@@ -58,6 +72,8 @@ class RoleTest extends TestCase
         $role = Role::firstWhere('name', $name);
         $this->assertModelExists($role);
         $this->assertEquals('web', $role->guard_name);
+
+        $this->assertEquals($permission->name, $role->permissions[0]->name);
     }
 
     public function test_not_create_role_for_api_because_problem_with_validations(): void
@@ -65,17 +81,23 @@ class RoleTest extends TestCase
         $response = $this->postJson(route('api.v1.roles.store'), []);
 
         $errors = [
-            'name'
+            'name',
+            'permissions',
         ];
         $response->assertJsonValidationErrors($errors);
     }
 
     public function test_show_role_by_id_for_api(): void
     {
+        $permission = Permission::create([
+            'name' => $this->faker->word(),
+            'guard_name' => 'web'
+        ]);
         $role = Role::create([
             'name' => $this->faker->word(),
             'guard_name' => 'web'
         ]);
+        $role->permissions()->attach([$permission->id]);
 
         $response = $this->getJson(route('api.v1.roles.show', ['role' => $role->id]));
 
@@ -84,7 +106,14 @@ class RoleTest extends TestCase
                 "data" => [
                     'id' => $role->id,
                     'name' => $role->name,
-                    'guard_name' => $role->guard_name
+                    'guard_name' => $role->guard_name,
+                    'permissions' => $role->permissions->map(function (Permission $permissionIterable) {
+                        return [
+                            'id' => $permissionIterable->id,
+                            'name' => $permissionIterable->name,
+                            'guard_name' => $permissionIterable->guard_name
+                        ];
+                    })->toArray()
                 ],
                 "message" => __('generals.success-show', ['name' => 'Role'])
             ]);
@@ -92,10 +121,15 @@ class RoleTest extends TestCase
 
     public function test_index_role_for_api(): void
     {
-        Role::create([
+        $permission = Permission::create([
             'name' => $this->faker->word(),
             'guard_name' => 'web'
         ]);
+        $role = Role::create([
+            'name' => $this->faker->word(),
+            'guard_name' => 'web'
+        ]);
+        $role->permissions()->attach([$permission->id]);
 
         $response = $this->getJson(route('api.v1.roles.index'));
 
@@ -106,7 +140,14 @@ class RoleTest extends TestCase
                     return [
                         'id' => $roleIterable->id,
                         'name' => $roleIterable->name,
-                        'guard_name' => $roleIterable->guard_name
+                        'guard_name' => $roleIterable->guard_name,
+                        'permissions' => $roleIterable->permissions->map(function (Permission $permissionIterable) {
+                            return [
+                                'id' => $permissionIterable->id,
+                                'name' => $permissionIterable->name,
+                                'guard_name' => $permissionIterable->guard_name
+                            ];
+                        })->toArray()
                     ];
                 })->toArray(),
                 "message" => __('generals.success-index', ['name' => 'Role'])
@@ -115,38 +156,63 @@ class RoleTest extends TestCase
 
     public function test_update_role_with_guard_name_for_api(): void
     {
+        $permission = Permission::create([
+            'name' => $this->faker->word(),
+            'guard_name' => 'web'
+        ]);
+        $permission2 = Permission::create([
+            'name' => $this->faker->word(),
+            'guard_name' => 'web'
+        ]);
         $role = Role::create([
             'name' => $this->faker->word(),
-            'guard_name' => $this->faker->word()
+            'guard_name' => 'web'
         ]);
+        $role->permissions()->attach([$permission->id]);
 
         $response = $this->putJson(route('api.v1.roles.update', ['role' => $role->id]), [
             'name'       => $name = $this->faker->word(),
             'guard_name' => $guard_name = $this->faker->word(),
+            'permissions' => [$permission2->id]
         ]);
 
         $response->assertNoContent();
         $role->refresh();
         $this->assertEquals($name, $role->name);
         $this->assertEquals($guard_name, $role->guard_name);
+
+        $this->assertEquals($permission2->name, $role->permissions[0]->name);
     }
 
     public function test_update_role_without_guard_name_for_api(): void
     {
+
+        $permission = Permission::create([
+            'name' => $this->faker->word(),
+            'guard_name' => 'web'
+        ]);
+        $permission2 = Permission::create([
+            'name' => $this->faker->word(),
+            'guard_name' => 'web'
+        ]);
         $role = Role::create([
             'name' => $this->faker->word(),
-            'guard_name' => $this->faker->word()
+            'guard_name' => 'web'
         ]);
+        $role->permissions()->attach([$permission->id]);
 
         $response = $this->putJson(route('api.v1.roles.update', ['role' => $role->id]), [
             'name'       => $name = $this->faker->word(),
             'guard_name' => '',
+            'permissions' => [$permission2->id]
         ]);
 
         $response->assertNoContent();
         $role->refresh();
         $this->assertEquals($name, $role->name);
         $this->assertEquals('web', $role->guard_name);
+
+        $this->assertEquals($permission2->name, $role->permissions[0]->name);
     }
 
     public function test_not_update_role_for_api_because_problem_with_validations(): void
@@ -158,7 +224,8 @@ class RoleTest extends TestCase
         $response = $this->putJson(route('api.v1.roles.update', ['role' => $role->id]), []);
 
         $errors = [
-            'name'
+            'name',
+            'permissions'
         ];
         $response->assertJsonValidationErrors($errors);
     }

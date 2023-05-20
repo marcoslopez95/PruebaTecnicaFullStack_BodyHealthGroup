@@ -19,7 +19,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
+        $roles = Role::with('permissions')->get();
 
         return customResponseSucessfull(
             __('generals.success-index', ['name' => 'Roles']),
@@ -34,7 +34,9 @@ class RoleController extends Controller
     {
         DB::beginTransaction();
         try {
-            Role::create($request->only(['name', 'guard_name']));
+            $role = Role::create($request->only(['name', 'guard_name']));
+
+            $role->permissions()->attach($request->permissions);
         } catch (Exception $e) {
             DB::rollBack();
             return customResponseException($e, __('errors.sistem-error'), 500);
@@ -48,6 +50,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
+        $role->load('permissions');
         return customResponseSucessfull(
             __('generals.success-show', ['name' => 'Permission']),
             RoleResource::make($role)
@@ -62,6 +65,8 @@ class RoleController extends Controller
         DB::beginTransaction();
         try {
             $role->update($request->only(['name', 'guard_name']));
+
+            $role->permissions()->sync($request->permissions);
         } catch (Exception $e) {
             DB::rollBack();
             return customResponseException($e, __('errors.sistem-error'), 500);
