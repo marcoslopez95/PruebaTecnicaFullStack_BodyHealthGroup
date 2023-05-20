@@ -102,6 +102,7 @@ import ChartIcon from '~icons/ChartIcon.vue'
 import Gridcolspan from '~icons/Gridcolspan.vue'
 import AuthIcon from '~icons/AuthIcon.vue'
 import BurguerComponent from '~icons/BurguerComponent.vue'
+import { Link, router } from '@inertiajs/vue3';
 
 const selected = ref('')
 const page = ref('')
@@ -253,6 +254,7 @@ interface TitleMenu{
     title?: string
     items: ItemMenu[]
 }
+
 </script>
 
 <style scoped>

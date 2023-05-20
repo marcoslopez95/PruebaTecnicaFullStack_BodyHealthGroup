@@ -43,7 +43,7 @@ const showPassword = ref(false)
             <h2 class="text-title-md2 font-bold text-black dark:text-white">
                 {{  $t('views.login.sign-in-title') }}
             </h2>
-            <!-- <LangComponent /> -->
+            <LangComponent />
             <nav>
                 <ol class="flex items-center gap-2">
                     <li><a class="font-medium" :href=" //@ts-ignore
