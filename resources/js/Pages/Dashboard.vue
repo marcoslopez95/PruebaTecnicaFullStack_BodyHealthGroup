@@ -7,6 +7,7 @@ import Chart2 from '@/Layouts/Charts/Chart2.vue'
 // import Chart4 from './Charts/Chart4.vue'
 import Map1 from '@/Layouts/Charts/Map1.vue'
 import Table1 from '@/Layouts/Table1.vue'
+
 </script>
 
 <template>

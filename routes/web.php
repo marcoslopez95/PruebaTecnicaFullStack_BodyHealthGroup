@@ -15,13 +15,14 @@ use Inertia\Inertia;
 |
 */
 Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
+    'auth:sanctum'
 ])->group(function () {
     //template
     Route::get('dashboard', function () {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Dashboard', [
+            'user' => auth()->user(),
+            'is_admin' => isAdmin()
+        ]);
     })->middleware('auth:sanctum')->name('dashboard');
 
     Route::prefix('template')->group(function () {

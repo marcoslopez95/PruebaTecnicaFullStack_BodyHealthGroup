@@ -1,3 +1,20 @@
 {
-  "login": {}
+  "login": {
+    "login": "Welcome!",
+    "email": "Email",
+    "sign-in-title": "Sign In",
+    "placeholder": {
+      "email": "Enter your email",
+      "password": "6 characters min."
+    },
+    "password": "Password",
+    "button": "Sign In",
+    "donot-have-account": "Don't have any account?",
+    "register": "Sign Up",
+    "sign-in-chipset": "Sign In",
+    "head": "Log in"
+  },
+  "header": {
+    "search": "Search..."
+  }
 }

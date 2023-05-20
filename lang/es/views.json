@@ -1,5 +1,20 @@
 {
   "login": {
-    "login": "11"
+    "login": "¡Bievenido!",
+    "email": "Correo Electrónico",
+    "sign-in-title": "Iniciar Sesión",
+    "placeholder": {
+      "email": "Introduzca su correo",
+      "password": "6 carácteres mínimo"
+    },
+    "password": "Contraseña",
+    "button": "Iniciar Sesión",
+    "donot-have-account": "¿No tienes cuenta?",
+    "register": "Registrarse",
+    "sign-in-chipset": "Iniciar Sesión",
+    "head": "Inicio de sesión"
+  },
+  "header": {
+    "search": "Buscar..."
   }
 }
