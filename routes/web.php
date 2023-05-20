@@ -25,6 +25,11 @@ Route::middleware([
         ]);
     })->middleware('auth:sanctum')->name('dashboard');
 
+    Route::prefix('admin/config', function() {
+        Route::get('/roles', function () {
+            return Inertia::render('Admin/Security/Roles/List');
+        })->name('admin.config.roles');
+    });
     Route::prefix('template')->group(function () {
         Route::get('/calendar', function () {
             return Inertia::render('template/Calendar');

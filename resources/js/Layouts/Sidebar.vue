@@ -154,6 +154,7 @@ const itemsMenu: TitleMenu[] = [
                 to: 'calendar',
                 icon: CalendarIcon
             },
+
             {
                 label: 'Profile',
                 to: 'profile',
@@ -185,6 +186,17 @@ const itemsMenu: TitleMenu[] = [
                 label: 'Settings',
                 to: 'settings',
                 icon: SettingIcon
+            },
+            {
+                label: 'Settingss',
+                to: '#',
+                icon: SettingIcon,
+                children: [
+                    {
+                        label: 'Roles',
+                        to: 'admin.config.roles',
+                    }
+                ]
             },
         ]
     },
