@@ -357,6 +357,7 @@
                             </li>
                         </ul>
                         <button
+                            @click="logout"
                             class="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
                             <svg class="fill-current" width="22" height="22" viewBox="0 0 22 22" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -382,6 +383,8 @@
 import { helperStore } from '@/helper';
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia'
+import axios from 'axios';
+import { router } from '@inertiajs/vue3';
 const sidebarToggle = ref(false)
 const darkMode = ref(false)
 const dropdownOpen = ref(false)
@@ -393,6 +396,16 @@ const chat = ref(false)
 const helper = helperStore()
 const { openHamburgerMenu } = storeToRefs(helper)
 
+const logout = () => {
+
+    axios
+        //@ts-ignore
+        .post(route('logout'))
+        .then(()=>{
+            //@ts-ignore
+            router.get(route('login'))
+        })
+}
 </script>
 
 <style scoped></style>

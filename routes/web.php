@@ -14,31 +14,15 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return redirect()->route('dashboard');
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-Route::prefix('template')->group(function () {
-    Route::get('/',function () {
-        return view('template.index');
-    });
-});
-
 Route::middleware([
-    'auth',
-    // config('jetstream.auth_session'),
-    // 'verified',
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
 ])->group(function () {
     //template
-    Route::get('/dashboard', function () {
+    Route::get('dashboard', function () {
         return Inertia::render('Dashboard');
-    })->name('dashboard');
+    })->middleware('auth:sanctum')->name('dashboard');
 
     Route::prefix('template')->group(function () {
         Route::get('/calendar', function () {
@@ -76,9 +60,5 @@ Route::middleware([
         Route::get('/buttons', function () {
             return Inertia::render('template/Buttons');
         })->name('buttons');
-        // Route::get('/register', function () {
-        //     return Inertia::render('Dashboard');
-        // })->name('register');
     });
-
 });

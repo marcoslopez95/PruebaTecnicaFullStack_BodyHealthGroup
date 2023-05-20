@@ -218,7 +218,7 @@ const itemsMenu: TitleMenu[] = [
                 children: [
                     {
                         label: 'Sign In',
-                        to: 'dashboard',
+                        to: 'login',
                     },
                     {
                         label: 'Sign Up',
