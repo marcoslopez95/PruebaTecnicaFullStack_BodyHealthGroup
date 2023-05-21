@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Publication extends Model
 {
-    use HasFactory,SoftDeletes,IsDeletedModelTrait;
+    use HasFactory, SoftDeletes, IsDeletedModelTrait;
 
     protected $fillable = [
         'content',
@@ -31,8 +31,8 @@ class Publication extends Model
     protected function labels(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => explode(',', $value),
-            set: fn (array $value) => implode(',', $value),
+            get: fn ($value) => !empty($value) ? explode(',', $value) : null,
+            set: fn (array $value) => !empty($value) ? implode(',', $value) : null,
         );
     }
 
