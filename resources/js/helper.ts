@@ -163,9 +163,9 @@ export const helperStore = defineStore('helper', () => {
       try {
         let response
         if (isDeleted(id)) {
-          response = await http(url.value + id + '/restore', 'put')
+          response = await http(`${url.value}/${id}/restore`, 'put')
         } else {
-          response = await http(url.value + '/' + id, 'delete')
+          response = await http(`${url.value}/${id}`, 'delete')
         }
         resolve(response)
       } catch (err) {

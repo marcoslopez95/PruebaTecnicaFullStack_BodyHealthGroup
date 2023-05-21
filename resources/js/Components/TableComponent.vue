@@ -27,7 +27,8 @@
                                         <EditIcon></EditIcon>
                                     </button>
                                     <button type="button" class="hover:text-primary" @click="openConfirmModal(item)">
-                                        <TrashedIcon></TrashedIcon>
+                                        <TrashedIcon v-if="!item.isDeleted"></TrashedIcon>
+                                        <RestoreIcon v-else></RestoreIcon>
                                     </button>
                                 </div>
                             </slot>
@@ -76,6 +77,7 @@ import { useI18n } from 'vue-i18n'
 import ChipComponent from './ChipComponent.vue'
 import EditIcon from '@/svg-components/EditIcon.vue'
 import TrashedIcon from '@/svg-components/TrashedIcon.vue'
+import RestoreIcon from '@/svg-components/RestoreIcon.vue'
 import ButtonComponent from './ButtonComponent.vue'
 import { helperStore } from '@/helper'
 import { storeToRefs } from 'pinia'
