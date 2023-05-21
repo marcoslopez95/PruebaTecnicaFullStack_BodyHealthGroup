@@ -19,20 +19,12 @@
                             {{ $t('commons.name') }} <span class="text-meta-1">*</span>
                         </label>
                         <TextInput
-                        v-model="permissionStore.form.name"
+                        v-model="regionStore.form.name"
                         />
 
                     </div>
 
-                    <div class="w-full xl:w-1/2">
-                        <label class="mb-2.5 block text-black dark:text-white">
-                            {{ $t('views.permissions.guard_name') }}
-                        </label>
-                        <TextInput
-                            v-model="permissionStore.form.guard_name"
-                        />
 
-                    </div>
                 </div>
 
             </div>
@@ -43,22 +35,22 @@
 import ButtonComponent from '@/Components/ButtonComponent.vue';
 import TextInput from '@/Components/TextInput.vue'
 import { helperStore } from '@/helper';
-import { PermissionStore } from '@/stores/PermissionStore';
+import { RegionStore } from '@/stores/RegionStore';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n()
 const helper = helperStore()
 const emit = defineEmits(['index'])
-const permissionStore = PermissionStore()
+const regionStore = RegionStore()
 
 const getTitle = () :string => {
-    if('id' in permissionStore.form){
-        return t('commons.update.view', { name: t('views.permissions.title') })
+    if('id' in regionStore.form){
+        return t('commons.update.view', { name: t('views.regions.title') })
     }
-    return t('commons.create.view', { name: t('views.permissions.title') })
+    return t('commons.create.view', { name: t('views.regions.title') })
 }
 
 const getButton = () :string => {
-    if('id' in permissionStore.form){
+    if('id' in regionStore.form){
         return t('commons.button.update')
     }
     return t('commons.button.save')
@@ -66,11 +58,11 @@ const getButton = () :string => {
 
 const clickInSaveOrUpdate = async () => {
     try{
-        if('id' in permissionStore.form){
-            const {id,...data} = permissionStore.form
+        if('id' in regionStore.form){
+            const {id,...data} = regionStore.form
             await helper.put(id,data)
         }else {
-            await helper.create(permissionStore.form)
+            await helper.create(regionStore.form)
         }
         emit('index')
     }catch(e){

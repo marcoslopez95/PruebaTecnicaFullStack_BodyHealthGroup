@@ -15,16 +15,16 @@
 import ButtonComponent from '@/Components/ButtonComponent.vue';
 import TableComponent from '@/Components/TableComponent.vue';
 import { helperStore } from '@/helper';
-import { PermissionStore } from '@/stores/PermissionStore';
+import { RegionStore } from '@/stores/RegionStore';
 import { storeToRefs } from 'pinia';
-import { PermissionUpdate } from 'resources/ts/interfaces/Permission/Permission.dto';
+import { RegionUpdate } from 'resources/ts/interfaces/Region/Region.dto';
 import { Head } from 'resources/ts/interfaces/TableInterface';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n()
 const helper = helperStore()
-const permissionStore = PermissionStore()
-const { form } = storeToRefs(permissionStore)
+const regionStore = RegionStore()
+const { form } = storeToRefs(regionStore)
 const emit = defineEmits(['create'])
 
 const { url } = storeToRefs(helper)
@@ -38,19 +38,20 @@ const headers: Head[] = [
         value: 'name'
     },
     {
-        name: t('views.permissions.guard_name'),
-        value: 'guard_name'
+        name: t('commons.status'),
+        value: 'isDeleted',
+        status: 'deleted'
     },
 
 ]
 //@ts-ignore
-url.value = route('api.v1.permissions.index')
+url.value = route('api.v1.regions.index')
 
 helper.index()
 
-const clickInCreateOrEdit = (item: PermissionUpdate | null) => {
+const clickInCreateOrEdit = (item: RegionUpdate | null) => {
     if (item) { form.value = item }
-    else { permissionStore.resetForm() }
+    else { regionStore.resetForm() }
     emit('create')
 }
 
