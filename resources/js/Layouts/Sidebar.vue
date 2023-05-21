@@ -104,6 +104,7 @@ import AuthIcon from '~icons/AuthIcon.vue'
 import BurguerComponent from '~icons/BurguerComponent.vue'
 import { Link, router } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
+import SecurityIcon from '@/svg-components/SecurityIcon.vue';
 const { t } = useI18n()
 const selected = ref('')
 const page = ref('')
@@ -193,6 +194,17 @@ const itemsMenu: TitleMenu[] = [
                 label: t('menu.settings'),
                 to: '#',
                 icon: SettingIcon,
+                children: [
+                    {
+                        label: t('menu.regions'),
+                        to: 'admin.config.regions',
+                    },
+                ]
+            },
+            {
+                label: t('menu.security'),
+                to: '#',
+                icon: SecurityIcon,
                 children: [
                     {
                         label: t('menu.roles'),

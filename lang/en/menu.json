@@ -2,5 +2,7 @@
   "settings": "Settings",
   "roles": "Roles",
   "permissions": "Permissions",
-  "users": "Users"
+  "users": "Users",
+  "security": "Security",
+  "regions": "Regions"
 }

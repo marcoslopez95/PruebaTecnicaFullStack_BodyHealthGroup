@@ -29,5 +29,8 @@
     "title": "User | Users",
     "password": "Password",
     "password_confirmation": "Confirmed Password"
+  },
+  "regions": {
+    "title": "Region | Regions"
   }
 }

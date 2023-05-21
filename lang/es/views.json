@@ -28,5 +28,8 @@
   "users": {
     "title": "Usuario | Usuarios",
     "password": "Contraseña"
+  },
+  "regions": {
+    "title": "Región | Regiones"
   }
 }

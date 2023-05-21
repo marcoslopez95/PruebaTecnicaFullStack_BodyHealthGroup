@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Admin\Config\RegionController;
 use App\Http\Controllers\Web\Admin\Security\PermissionController;
 use App\Http\Controllers\Web\Admin\Security\RoleController;
 use App\Http\Controllers\Web\Admin\Security\UserController;
@@ -29,6 +30,14 @@ Route::group([
     Route::get('/users', UserController::class)->name('users');
 });
 
+Route::group([
+    'middleware' => 'auth:sanctum',
+    'prefix' => 'admin/config',
+    'as' => 'admin.config.'
+], function () {
+
+    Route::get('/regions', RegionController::class)->name('regions');
+});
 Route::middleware([
     'auth:sanctum'
 ])->group(function () {
