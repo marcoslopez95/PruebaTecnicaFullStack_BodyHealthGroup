@@ -26,6 +26,8 @@
     "guard_name": "Guard Name"
   },
   "users": {
-    "title": "User | Users"
+    "title": "User | Users",
+    "password": "Password",
+    "password_confirmation": "Confirmed Password"
   }
 }

@@ -27,8 +27,8 @@ export const RoleStore = defineStore('Role', () => {
 
   const roles = ref<Role[]>([])
   const getRoles = () => {
-    helper.http('/api/v1/admin/security/permissions').then((res: any) => {
-      permissions.value = res.data.data as Role[]
+    helper.http('/api/v1/admin/security/roles').then((res: any) => {
+        roles.value = res.data.data as Role[]
     })
   }
   return {

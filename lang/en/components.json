@@ -7,5 +7,6 @@
   },
   "multiselect": {
     "select-options": "Select options"
-  }
+  },
+  "select-only": "Select..."
 }
