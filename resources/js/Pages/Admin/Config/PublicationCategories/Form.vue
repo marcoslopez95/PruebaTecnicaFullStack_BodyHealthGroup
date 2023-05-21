@@ -18,13 +18,17 @@
                         <label class="mb-2.5 block text-black dark:text-white">
                             {{ $t('commons.name') }} <span class="text-meta-1">*</span>
                         </label>
-                        <TextInput
-                        v-model="regionStore.form.name"
-                        />
+                        <TextInput v-model="publicationCategoriesStore.form.name" />
 
                     </div>
 
+                    <div class="w-full xl:w-1/2">
+                        <label class="mb-2.5 block text-black dark:text-white">
+                            {{ $t('commons.description') }}
+                        </label>
+                        <TextInput v-model="publicationCategoriesStore.form.description" />
 
+                    </div>
                 </div>
 
             </div>
@@ -35,37 +39,37 @@
 import ButtonComponent from '@/Components/ButtonComponent.vue';
 import TextInput from '@/Components/TextInput.vue'
 import { helperStore } from '@/helper';
-import { RegionStore } from '@/stores/RegionStore';
+import { PublicationCategoriesStore } from '@/stores/PublicationCategoriesStore';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n()
 const helper = helperStore()
 const emit = defineEmits(['index'])
-const regionStore = RegionStore()
+const publicationCategoriesStore = PublicationCategoriesStore()
 
-const getTitle = () :string => {
-    if('id' in regionStore.form){
-        return t('commons.update.view', { name: t('views.regions.title') })
+const getTitle = (): string => {
+    if ('id' in publicationCategoriesStore.form) {
+        return t('commons.update.view', { name: t('views.publication-categories.title') })
     }
-    return t('commons.create.view', { name: t('views.regions.title') })
+    return t('commons.create.view', { name: t('views.publication-categories.title') })
 }
 
-const getButton = () :string => {
-    if('id' in regionStore.form){
+const getButton = (): string => {
+    if ('id' in publicationCategoriesStore.form) {
         return t('commons.button.update')
     }
     return t('commons.button.save')
 }
 
 const clickInSaveOrUpdate = async () => {
-    try{
-        if('id' in regionStore.form){
-            const {id,...data} = regionStore.form
-            await helper.put(id,data)
-        }else {
-            await helper.create(regionStore.form)
+    try {
+        if ('id' in publicationCategoriesStore.form) {
+            const { id, ...data } = publicationCategoriesStore.form
+            await helper.put(id, data)
+        } else {
+            await helper.create(publicationCategoriesStore.form)
         }
         emit('index')
-    }catch(e){
+    } catch (e) {
 
     }
 

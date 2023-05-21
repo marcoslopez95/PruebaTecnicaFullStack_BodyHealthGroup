@@ -15,16 +15,16 @@
 import ButtonComponent from '@/Components/ButtonComponent.vue';
 import TableComponent from '@/Components/TableComponent.vue';
 import { helperStore } from '@/helper';
-import { RegionStore } from '@/stores/RegionStore';
+import { PublicationCategoriesStore } from '@/stores/PublicationCategoriesStore';
 import { storeToRefs } from 'pinia';
-import { RegionUpdate } from 'resources/ts/interfaces/Region/Region.dto';
+import { PublicationCategoryUpdate } from 'resources/ts/interfaces/PublicationCategory/PublicationCategory.dto';
 import { Head } from 'resources/ts/interfaces/TableInterface';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n()
 const helper = helperStore()
-const regionStore = RegionStore()
-const { form } = storeToRefs(regionStore)
+const publicationCategoriesStore = PublicationCategoriesStore()
+const { form } = storeToRefs(publicationCategoriesStore)
 const emit = defineEmits(['create'])
 
 const { url } = storeToRefs(helper)
@@ -38,6 +38,10 @@ const headers: Head[] = [
         value: 'name'
     },
     {
+        name: t('commons.description'),
+        value: 'description'
+    },
+    {
         name: t('commons.status'),
         value: 'isDeleted',
         status: 'deleted'
@@ -45,13 +49,13 @@ const headers: Head[] = [
 
 ]
 //@ts-ignore
-url.value = route('api.v1.regions.index')
+url.value = route('api.v1.publication-categories.index')
 
 helper.index()
 
-const clickInCreateOrEdit = (item: RegionUpdate | null) => {
+const clickInCreateOrEdit = (item: PublicationCategoryUpdate | null) => {
     if (item) { form.value = item }
-    else { regionStore.resetForm() }
+    else { publicationCategoriesStore.resetForm() }
     emit('create')
 }
 

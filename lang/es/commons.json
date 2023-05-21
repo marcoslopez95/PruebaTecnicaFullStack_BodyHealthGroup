@@ -29,5 +29,6 @@
   "update-success": "Actualizado con éxito",
   "email": "Correo Electrónico",
   "created_at": "Registrado",
-  "status": "Estado"
+  "status": "Estado",
+  "description": "Descripción"
 }

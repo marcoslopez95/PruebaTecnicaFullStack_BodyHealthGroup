@@ -1,20 +1,20 @@
 import { helperStore } from '@/helper'
 import { defineStore } from 'pinia'
-import { RegionCreate, RegionUpdate } from 'resources/ts/interfaces/Region/Region.dto'
-import { Region } from 'resources/ts/interfaces/Region/Region.model'
+import { PublicationCategoryCreate, PublicationCategoryUpdate } from 'resources/ts/interfaces/PublicationCategory/PublicationCategory.dto'
+import { PublicationCategory } from 'resources/ts/interfaces/PublicationCategory/PublicationCategory.model'
 import { ref } from 'vue'
 
 export const PublicationCategoriesStore = defineStore('Publication-Categories', () => {
   const helper = helperStore()
 
-  const regions = ref<Region[]>([])
-  const getRegions = () => {
+  const publicationCategories = ref<PublicationCategory[]>([])
+  const getPublicationCategories = () => {
     helper.http('/api/v1/admin/config/regions').then((res: any) => {
-      regions.value = res.data.data as Region[]
+        publicationCategories.value = res.data.data as PublicationCategory[]
     })
   }
 
-  const form = ref<RegionCreate | RegionUpdate>({
+  const form = ref<PublicationCategoryCreate | PublicationCategoryUpdate>({
     name: '',
   })
 
@@ -24,8 +24,8 @@ export const PublicationCategoriesStore = defineStore('Publication-Categories', 
     }
   }
   return {
-    regions,
-    getRegions,
+    publicationCategories,
+    getPublicationCategories,
     form,
     resetForm
   }

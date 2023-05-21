@@ -29,5 +29,6 @@
   "update-success": "Update successfull",
   "email": "Email",
   "created_at": "Created At",
-  "status": "Status"
+  "status": "Status",
+  "description": "Description"
 }
