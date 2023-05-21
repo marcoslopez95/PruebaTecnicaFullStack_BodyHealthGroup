@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Admin\Security\RoleController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,12 +18,11 @@ use Inertia\Inertia;
 
 Route::group([
     'middleware' => 'auth:sanctum',
-    'prefix' => 'admin/config'
+    'prefix' => 'admin/security',
+    'as' => 'admin.security.'
 ], function () {
 
-    Route::get('/roles', function () {
-        return Inertia::render('Admin/Security/Roles/List');
-    })->name('admin.config.roles');
+    Route::get('/roles', [RoleController::class, 'index'])->name('roles');
 });
 Route::middleware([
     'auth:sanctum'

@@ -15,9 +15,7 @@ import Alpine from "alpinejs";
 // @ts-ignore
 import intersect from "@alpinejs/intersect";
 
-defineProps({
-    title: String,
-});
+defineProps<{title: string}>();
 
 const loading = ref(true)
 

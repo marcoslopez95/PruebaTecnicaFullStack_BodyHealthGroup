@@ -1,0 +1,11 @@
+{
+  "pagination": {
+    "showning": "Mostrando",
+    "to": "hasta",
+    "of": "de",
+    "results": "resultados"
+  },
+  "multiselect": {
+    "select-options": "Seleccione sus opciones"
+  }
+}

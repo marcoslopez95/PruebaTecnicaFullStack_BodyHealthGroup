@@ -195,7 +195,7 @@ const itemsMenu: TitleMenu[] = [
                 children: [
                     {
                         label: 'Roles',
-                        to: 'admin.config.roles',
+                        to: 'admin.security.roles',
                     }
                 ]
             },

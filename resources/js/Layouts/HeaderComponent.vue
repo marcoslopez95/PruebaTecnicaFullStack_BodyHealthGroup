@@ -172,6 +172,7 @@ const logout = () => {
         .post(route('logout'))
         .then(()=>{
             localStorage.removeItem('user')
+            localStorage.removeItem('token')
             //@ts-ignore
             router.get(route('login'))
         })

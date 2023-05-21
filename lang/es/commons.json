@@ -1,0 +1,23 @@
+{
+  "button": {
+    "create": "Crear",
+    "back": "Atrás"
+  },
+  "Actions": "Acciones",
+  "id": "Id",
+  "name": "Nombre",
+  "active": "Activo",
+  "inactive": "Inactivo",
+  "no-data": "Sin datos",
+  "close": "Cerrar",
+  "confirm": "Confirmar",
+  "confirm-delete": "¿Estás seguro de querer eliminar?",
+  "confirm-delete-title": "Confirmar Borrado",
+  "restore": {
+    "title": "Confirmar restaurar",
+    "content": "¿Estás seguro que desea restaurar?"
+  },
+  "create": {
+    "view": "Crear {name}"
+  }
+}

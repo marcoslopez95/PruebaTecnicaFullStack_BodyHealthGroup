@@ -24,7 +24,10 @@ const form = ref({
 const submit = async () => {
     //@ts-ignore
     const url = route('api.v1.login')
-    await helper.http(url,'post',{data:form.value}, t('views.login.login'))
+    //@ts-ignore
+    const res = (await helper.http(url,'post',{data:form.value}, t('views.login.login'))).data
+    const token = (res.data as string).split('|')[1]
+    localStorage.setItem('token', token)
     //@ts-ignore
     const user = (await helper.http(route('api.v1.get-user-auth'),'get')).data
 
@@ -189,7 +192,7 @@ const showPassword = ref(false)
 
                             <div class="mb-5">
                                 <button type="submit"
-                                    class=" w-full  rounded-lg border border-primary bg-primary p-4 font-medium text-white transition"
+                                    class=" w-full rounded-lg border border-primary bg-primary p-4 font-medium text-white transition"
                                     :class="{
                                         'bg-opacity-80': helper.loading ,
                                         'cursor-pointer': !helper.loading,

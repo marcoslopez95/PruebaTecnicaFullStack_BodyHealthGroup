@@ -16,5 +16,12 @@
   },
   "header": {
     "search": "Search..."
+  },
+  "roles": {
+    "title": "Role | Roles",
+    "guard_name": "Guard Name"
+  },
+  "permissions": {
+    "title": "Permission | Permissions"
   }
 }
