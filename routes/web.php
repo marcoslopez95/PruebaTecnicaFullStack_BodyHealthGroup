@@ -17,7 +17,7 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/', fn () => response()->redirectTo(route('dashboard')));
 Route::group([
     'middleware' => 'auth:sanctum',
     'prefix' => 'admin/security',
