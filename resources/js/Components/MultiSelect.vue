@@ -30,16 +30,19 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed,toRefs } from 'vue'
 const isOpen = ref(false);
-const selectedOptions = ref([]);
+// const selectedOptions = ref([]);
 const emit = defineEmits(['update:modelValue'])
 
 const props = defineProps<{
     options: any[]
     nameOp: string
     valueOp: string
+    modelValue: []
 }>()
+
+const {modelValue:selectedOptions } = toRefs(props)
 watch(selectedOptions, () =>{
     emit('update:modelValue', selectedOptions.value)
 })

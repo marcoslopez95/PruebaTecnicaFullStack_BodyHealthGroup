@@ -102,7 +102,7 @@ const clickInCreateOrEdit = (item: Publication | null = null) => {
             id: item.id,
             labels: item.labels,
             publication_category_id: item.publication_category.id,
-            region_id: item.region.id
+            region_id: item.region?.id
         }
     }
     else { publicationStore.resetForm() }
