@@ -31,5 +31,8 @@
   },
   "regions": {
     "title": "Región | Regiones"
+  },
+  "publication-categories": {
+    "title": "Categoría de Publicación | Categorías de Publicaciones"
   }
 }

@@ -32,5 +32,8 @@
   },
   "regions": {
     "title": "Region | Regions"
+  },
+  "publication-categories": {
+    "title": "Publication Category | Publication Categories"
   }
 }

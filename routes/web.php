@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Admin\Config\PublicationCategoryController;
 use App\Http\Controllers\Web\Admin\Config\RegionController;
 use App\Http\Controllers\Web\Admin\Security\PermissionController;
 use App\Http\Controllers\Web\Admin\Security\RoleController;
@@ -37,6 +38,7 @@ Route::group([
 ], function () {
 
     Route::get('/regions', RegionController::class)->name('regions');
+    Route::get('/publication-categories', PublicationCategoryController::class)->name('publication-categories');
 });
 Route::middleware([
     'auth:sanctum'

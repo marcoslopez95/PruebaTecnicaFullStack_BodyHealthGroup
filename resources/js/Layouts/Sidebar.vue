@@ -199,6 +199,10 @@ const itemsMenu: TitleMenu[] = [
                         label: t('menu.regions'),
                         to: 'admin.config.regions',
                     },
+                    {
+                        label: t('menu.publication-categories'),
+                        to: 'admin.config.publication-categories',
+                    },
                 ]
             },
             {
