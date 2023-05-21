@@ -1,12 +1,12 @@
 <template>
     <div
         class="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-        <div class="max-w-full overflow-x-auto">
+        <div class="max-w-full overflow-x-auto max-h-[400px]">
             <table class="w-full table-auto">
                 <thead>
-                    <tr class="text-center bg-gray-2 text-left dark:bg-meta-4">
+                    <tr class="text-center bg-gray-2 dark:bg-meta-4">
                         <slot v-for="head, i in headers" :name="setNameHead(head.value)">
-                            <th class="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
+                            <th class="min-w-[150px] max-w-[250px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
                                 {{ head.name }}
                             </th>
                         </slot>
@@ -23,7 +23,7 @@
                                 </ChipComponent>
                                 <span v-else class="text-center">{{ getValue(item, head) }}</span>
                                 <div v-if="withButtons && head.value == 'actions'" class="space-x-3.5">
-                                    <button class="hover:text-primary" @click="emit('edit',item)">
+                                    <button v-if="!item.isDeleted" class="hover:text-primary" @click="emit('edit',item)">
                                         <EditIcon></EditIcon>
                                     </button>
                                     <button type="button" class="hover:text-primary" @click="openConfirmModal(item)">
@@ -114,7 +114,7 @@ const content = ref('')
 const openConfirmModal = (item: any) => {
     itemH.value = item
     confirmModal.value = true
-    const deleted = item.isDeleted ?? false
+    const deleted = item.isDeleted
     title.value = deleted ? t('commons.restore.title') : t('commons.confirm-delete-title')
     content.value = deleted ? t('commons.restore.content') : t('commons.confirm-delete')
 }
@@ -129,10 +129,10 @@ const okDeletedRestore = () => {
 }
 
 const getStatusColor = (item: any, head: Head): Variant => {
-    return getValue(item, head) ? 'success' : 'danger'
+    return !getValue(item, head) ? 'success' : 'danger'
 }
 const getStatus = (item: any, head: Head): string => {
-    return getValue(item, head) ?
+    return !getValue(item, head) ?
         t('commons.active') :
         t('commons.inactive')
 }

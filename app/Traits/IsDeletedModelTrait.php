@@ -8,7 +8,7 @@ trait IsDeletedModelTrait {
     public function isDeleted(): Attribute
     {
         return Attribute::make(
-            get: fn()=> is_null($this->deleted_at)
+            get: fn()=> !is_null($this->deleted_at)
         );
     }
 }

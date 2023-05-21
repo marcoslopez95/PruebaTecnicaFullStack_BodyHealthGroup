@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Web\Admin\Security\PermissionController;
 use App\Http\Controllers\Web\Admin\Security\RoleController;
+use App\Http\Controllers\Web\Admin\Security\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,6 +26,7 @@ Route::group([
 
     Route::get('/roles', [RoleController::class, 'index'])->name('roles');
     Route::get('/permissions', PermissionController::class)->name('permissions');
+    Route::get('/users', UserController::class)->name('users');
 });
 
 Route::middleware([

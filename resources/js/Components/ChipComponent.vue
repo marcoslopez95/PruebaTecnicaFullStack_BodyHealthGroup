@@ -1,7 +1,7 @@
 <template>
     <p
         :class="type[variant ?? 'success']"
-        class="inline-flex rounded-full bg-success bg-opacity-10 py-1 px-3 text-sm font-medium text-success">
+        class="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ">
         <slot>Chip</slot>
     </p>
 </template>

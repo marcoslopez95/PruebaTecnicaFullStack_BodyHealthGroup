@@ -26,5 +26,8 @@
     "view": "Update {name}"
   },
   "create-success": "Create Successfull",
-  "update-success": "Update successfull"
+  "update-success": "Update successfull",
+  "email": "Email",
+  "created_at": "Created At",
+  "status": "Status"
 }

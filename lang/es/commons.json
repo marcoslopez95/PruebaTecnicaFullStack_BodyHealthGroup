@@ -26,5 +26,8 @@
     "view": "Actualizar {name}"
   },
   "create-success": "Creado con éxito",
-  "update-success": "Actualizado con éxito"
+  "update-success": "Actualizado con éxito",
+  "email": "Correo Electrónico",
+  "created_at": "Registrado",
+  "status": "Estado"
 }

@@ -202,6 +202,10 @@ const itemsMenu: TitleMenu[] = [
                         label: t('menu.permissions'),
                         to: 'admin.security.permissions',
                     },
+                    {
+                        label: t('menu.users'),
+                        to: 'admin.security.users',
+                    },
                 ]
             },
         ]

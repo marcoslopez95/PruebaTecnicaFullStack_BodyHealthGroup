@@ -1,5 +1,6 @@
 {
   "settings": "Settings",
   "roles": "Roles",
-  "permissions": "Permissions"
+  "permissions": "Permissions",
+  "users": "Users"
 }
