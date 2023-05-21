@@ -12,8 +12,6 @@ export const helperStore = defineStore('helper', () => {
   const items = ref()
   const item = ref()
   const url = ref('')
-  const formCrud = ref<any>({})
-  const formRef = ref<any>()
   const openModalCrud = ref<boolean>(false)
   const params = ref({})
   const perPage = [5, 10, 15]
@@ -130,15 +128,7 @@ export const helperStore = defineStore('helper', () => {
   const put = (id: any, data: any) => {
     return new Promise(async (resolve, reject) => {
       try {
-        if (formRef.value) {
-          const { valid, ...v } = await formRef.value.validate()
-          // console.log('valid',valid)
-          // console.log('v',v)
-          if (!valid) {
-            reject(false)
-            return
-          }
-        }
+
         let response = await http(url.value + '/' + id, 'put', { data })
 
         resolve(response)
@@ -151,13 +141,6 @@ export const helperStore = defineStore('helper', () => {
   const create = (data: any) => {
     return new Promise(async (resolve, reject) => {
       try {
-        if (formRef.value) {
-          const { valid } = await formRef.value.validate()
-          if (!valid) {
-            reject(false)
-            return
-          }
-        }
         let response = await http(url.value, 'post', { data })
 
         resolve(response)
@@ -208,8 +191,6 @@ export const helperStore = defineStore('helper', () => {
     isDeleted,
     loading,
     clickIn,
-    formCrud,
-    formRef,
     openModalCrud,
     params,
   }

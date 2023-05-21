@@ -10,7 +10,11 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import List from './List.vue'
 import Form from './Form.vue'
 import { ref } from 'vue'
+import { RoleStore } from '@/stores/RoleStore';
 const create = ref(false)
+const roleStore = RoleStore()
+
+roleStore.getPermissions()
 </script>
 
 <style scoped></style>

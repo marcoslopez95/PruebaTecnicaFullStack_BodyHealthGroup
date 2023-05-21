@@ -1,7 +1,8 @@
 {
   "button": {
     "create": "Crear",
-    "back": "Atrás"
+    "back": "Atrás",
+    "save": "Guardar"
   },
   "Actions": "Acciones",
   "id": "Id",

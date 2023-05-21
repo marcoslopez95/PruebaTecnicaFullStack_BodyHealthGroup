@@ -16,20 +16,22 @@
 
         <div v-if="isOpen"
             class="absolute z-10 w-full py-2 mt-2 overflow-auto text-base bg-white border border-gray-300 rounded-md shadow-md max-h-48 ring-1 ring-black ring-opacity-5">
-            <template v-for="option in options" :key="option">
+            <div v-if="options.length > 0" v-for="option in options" :key="option">
                 <label class="flex items-center py-2 pl-3 pr-9">
                     <input type="checkbox" class="mr-3 form-checkbox h-5 w-5 text-blue-500" :value="option[valueOp]"
                         v-model="selectedOptions">
                     <span class="truncate">{{ option[nameOp] }}</span>
                 </label>
-            </template>
+            </div>
+            <div v-else>
+                    <span class="mx-3"> No data </span>
+            </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 const isOpen = ref(false);
-const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
 const selectedOptions = ref([]);
 const emit = defineEmits(['update:modelValue'])
 

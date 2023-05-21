@@ -1,7 +1,8 @@
 {
   "button": {
     "create": "Create",
-    "back": "Back"
+    "back": "Back",
+    "save": "Save"
   },
   "Actions": "Actions",
   "id": "Id",

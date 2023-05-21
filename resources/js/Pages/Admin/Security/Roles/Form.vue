@@ -6,6 +6,9 @@
         <div>
             <ButtonComponent class="uppercase" @click="emit('index')">{{ $t('commons.button.back') }}</ButtonComponent>
         </div>
+        <div>
+            <ButtonComponent class="uppercase" @click="emit('index')">{{ $t('commons.button.save') }}</ButtonComponent>
+        </div>
     </div>
     <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <form action="#">
@@ -15,7 +18,9 @@
                         <label class="mb-2.5 block text-black dark:text-white">
                             {{ $t('commons.name') }} <span class="text-meta-1">*</span>
                         </label>
-                        <TextInput />
+                        <TextInput
+                        v-model="roleStore.form.name"
+                        />
 
                     </div>
 
@@ -23,7 +28,9 @@
                         <label class="mb-2.5 block text-black dark:text-white">
                             {{ $t('views.roles.guard_name') }}
                         </label>
-                        <TextInput />
+                        <TextInput
+                            v-model="roleStore.form.guard_name"
+                        />
 
                     </div>
                 </div>
@@ -35,11 +42,16 @@
                         {{ $t('views.permissions.title', 2) }}
                     </label>
                 </div>
-                <MultiSelect></MultiSelect>
+                <MultiSelect
+                    :options="roleStore.permissions"
+                    name-op="name"
+                    value-op="id"
+                    v-model="roleStore.form.permissions"
+                    ></MultiSelect>
 
-                <button class="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                    Send Message
-                </button>
+                <!-- <button class="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                    {{ $t('commons.create')}}
+                </button> -->
             </div>
         </form>
     </div>
@@ -48,8 +60,10 @@
 import ButtonComponent from '@/Components/ButtonComponent.vue';
 import MultiSelect from '@/Components/MultiSelect.vue';
 import TextInput from '@/Components/TextInput.vue'
+import { RoleStore } from '@/stores/RoleStore';
+import { RoleCreate } from 'resources/ts/interfaces/Role/Role.dto';
 import { ref } from 'vue'
 const emit = defineEmits(['index'])
-
+const roleStore = RoleStore()
 
 </script>
