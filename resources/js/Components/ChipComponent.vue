@@ -15,6 +15,8 @@ const type = {
     danger: 'bg-danger text-danger',
     success: 'bg-success text-success',
     warning: 'bg-warning text-warning',
+    primary: 'bg-primary text-primary',
+    secondary: 'bg-secondary text-secondary',
 }
 interface ChipInterface {
     variant?: Variant

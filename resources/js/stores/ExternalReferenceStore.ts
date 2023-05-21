@@ -11,7 +11,7 @@ export const ExternalReferenceStore = defineStore('External-References', () => {
 
   const externalReferences = ref<ExternalReference[]>([])
   const getExternalReferences = () => {
-    helper.http('/api/v1/admin/config/regions').then((res: any) => {
+    helper.http('/api/v1/admin/config/external-references').then((res: any) => {
         externalReferences.value = res.data.data as ExternalReference[]
     })
   }

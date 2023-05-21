@@ -1,9 +1,9 @@
 <template>
     <div class="relative">
-        <div class="flex items-center justify-between w-full py-2 pl-3 pr-10 text-sm bg-white border rounded-md cursor-pointer   "
+        <div class="flex items-center justify-between w-full py-3 pl-3 pr-10 text-sm bg-white border rounded-md cursor-pointer   "
             :class="isOpen ? 'border-primary' : 'border-stroke'" @click="isOpen = !isOpen">
             <span class="flex-grow truncate" v-if="selectedOptions.length > 0">
-                {{ selectedOptions.join(', ') }}
+                {{ nameSelectes }}
             </span>
             <span class="flex-grow truncate text-gray-500" v-else>
                 {{ $t('components.multiselect.select-options') }}
@@ -30,17 +30,22 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 const isOpen = ref(false);
 const selectedOptions = ref([]);
 const emit = defineEmits(['update:modelValue'])
 
-defineProps<{
+const props = defineProps<{
     options: any[]
     nameOp: string
     valueOp: string
 }>()
 watch(selectedOptions, () =>{
     emit('update:modelValue', selectedOptions.value)
+})
+
+const nameSelectes = computed(() => {
+    return selectedOptions.value
+        .map((select:number) => props.options.find(item => select === item[props.valueOp])[props.nameOp]).join(', ')
 })
 </script>

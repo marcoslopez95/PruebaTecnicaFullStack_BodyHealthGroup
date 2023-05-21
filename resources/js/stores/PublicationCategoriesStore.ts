@@ -9,7 +9,7 @@ export const PublicationCategoriesStore = defineStore('Publication-Categories', 
 
   const publicationCategories = ref<PublicationCategory[]>([])
   const getPublicationCategories = () => {
-    helper.http('/api/v1/admin/config/regions').then((res: any) => {
+    helper.http('/api/v1/admin/config/publication-categories').then((res: any) => {
         publicationCategories.value = res.data.data as PublicationCategory[]
     })
   }

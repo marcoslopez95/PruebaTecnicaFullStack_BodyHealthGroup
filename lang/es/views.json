@@ -39,6 +39,11 @@
     "url": "Url"
   },
   "publications": {
-    "title": "Publicación | Publicaciones"
+    "title": "Publicación | Publicaciones",
+    "labels": "Etiquetas",
+    "agg-label": "Agregue etiqueta",
+    "label-instructions": "Escriba un texto y presione enter. Presione sobre la etiqueta para eliminar",
+    "content-type": "Íngrese el contenido (max. 255 caracteres)",
+    "content": "Contenido"
   }
 }

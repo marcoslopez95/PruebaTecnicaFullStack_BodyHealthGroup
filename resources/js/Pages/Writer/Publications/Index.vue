@@ -10,7 +10,14 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import List from './List.vue'
 import Form from './Form.vue'
 import { ref } from 'vue'
+import { PublicationStore } from '@/stores/PublicationStore';
 const create = ref(false)
+
+const publicationStore = PublicationStore()
+
+publicationStore.getRegions()
+publicationStore.getExternalReferences()
+publicationStore.getPublicationCategories()
 </script>
 
 <style scoped></style>
