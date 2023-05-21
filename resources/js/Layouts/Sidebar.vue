@@ -103,7 +103,8 @@ import Gridcolspan from '~icons/Gridcolspan.vue'
 import AuthIcon from '~icons/AuthIcon.vue'
 import BurguerComponent from '~icons/BurguerComponent.vue'
 import { Link, router } from '@inertiajs/vue3';
-
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n()
 const selected = ref('')
 const page = ref('')
 const helper = helperStore()
@@ -189,14 +190,18 @@ const itemsMenu: TitleMenu[] = [
                 icon: SettingIcon
             },
             {
-                label: 'Settingss',
+                label: t('menu.settings'),
                 to: '#',
                 icon: SettingIcon,
                 children: [
                     {
-                        label: 'Roles',
+                        label: t('menu.roles'),
                         to: 'admin.security.roles',
-                    }
+                    },
+                    {
+                        label: t('menu.permissions'),
+                        to: 'admin.security.permissions',
+                    },
                 ]
             },
         ]

@@ -130,7 +130,7 @@ export const helperStore = defineStore('helper', () => {
   const put = (id: any, data: any, notify= true) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const message = notify ? t('commons.create-success') : ''
+        const message = notify ? t('commons.update-success') : ''
         let response = await http(url.value + '/' + id, 'put', { data },message)
 
         resolve(response)

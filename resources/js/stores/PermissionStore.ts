@@ -1,5 +1,6 @@
 import { helperStore } from "@/helper";
 import { defineStore } from "pinia";
+import { PermissionCreate, PermissionUpdate } from "resources/ts/interfaces/Permission/Permission.dto";
 import { Permission } from "resources/ts/interfaces/Permission/Permission.model";
 import { ref } from "vue";
 export const PermissionStore = defineStore('Permission', () => {
@@ -13,8 +14,21 @@ export const PermissionStore = defineStore('Permission', () => {
                 permissions.value = res.data.data as Permission[]
             })
     }
+    const form = ref<PermissionCreate | PermissionUpdate>({
+        name: '',
+        guard_name: '',
+      })
+
+      const resetForm = () => {
+        form.value = {
+            name: '',
+            guard_name: '',
+        }
+      }
     return {
         getPermissions,
-        permissions
+        permissions,
+        form,
+        resetForm
     }
 })

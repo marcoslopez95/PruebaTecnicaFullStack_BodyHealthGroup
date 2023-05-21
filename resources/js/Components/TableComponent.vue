@@ -59,7 +59,7 @@
                     </ButtonComponent>
                 </div>
                 <div>
-                    <ButtonComponent variant="danger">
+                    <ButtonComponent variant="danger" @click="okDeletedRestore" is-async>
                         {{ $t('commons.confirm') }}
                     </ButtonComponent>
                 </div>

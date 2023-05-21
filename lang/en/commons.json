@@ -25,5 +25,6 @@
   "update": {
     "view": "Update {name}"
   },
-  "create-success": "Create Successfull"
+  "create-success": "Create Successfull",
+  "update-success": "Update successfull"
 }

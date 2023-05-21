@@ -22,6 +22,7 @@
     "guard_name": "Guard Name"
   },
   "permissions": {
-    "title": "Permission | Permissions"
+    "title": "Permission | Permissions",
+    "guard_name": "Guard Name"
   }
 }

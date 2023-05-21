@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Admin\Security\PermissionController;
 use App\Http\Controllers\Web\Admin\Security\RoleController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +24,9 @@ Route::group([
 ], function () {
 
     Route::get('/roles', [RoleController::class, 'index'])->name('roles');
+    Route::get('/permissions', PermissionController::class)->name('permissions');
 });
+
 Route::middleware([
     'auth:sanctum'
 ])->group(function () {
