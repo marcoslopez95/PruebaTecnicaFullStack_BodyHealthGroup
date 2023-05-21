@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Admin\Config\ExternalReferenceController;
 use App\Http\Controllers\Web\Admin\Config\PublicationCategoryController;
 use App\Http\Controllers\Web\Admin\Config\RegionController;
 use App\Http\Controllers\Web\Admin\Security\PermissionController;
@@ -39,6 +40,7 @@ Route::group([
 
     Route::get('/regions', RegionController::class)->name('regions');
     Route::get('/publication-categories', PublicationCategoryController::class)->name('publication-categories');
+    Route::get('/external-references', ExternalReferenceController::class)->name('external-references');
 });
 Route::middleware([
     'auth:sanctum'
