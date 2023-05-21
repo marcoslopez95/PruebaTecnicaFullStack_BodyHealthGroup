@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\Admin\Config\RegionController;
 use App\Http\Controllers\Web\Admin\Security\PermissionController;
 use App\Http\Controllers\Web\Admin\Security\RoleController;
 use App\Http\Controllers\Web\Admin\Security\UserController;
+use App\Http\Controllers\Web\Writer\PublicationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,7 +21,9 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', fn () => response()->redirectTo(route('dashboard')));
+
 Route::group([
     'middleware' => 'auth:sanctum',
     'prefix' => 'admin/security',
@@ -41,7 +44,17 @@ Route::group([
     Route::get('/regions', RegionController::class)->name('regions');
     Route::get('/publication-categories', PublicationCategoryController::class)->name('publication-categories');
     Route::get('/external-references', ExternalReferenceController::class)->name('external-references');
+    Route::get('/external-references', ExternalReferenceController::class)->name('external-references');
 });
+
+Route::group([
+    'middleware' => ['auth:sanctum', 'role_or_permission:Admin|create publication'],
+    'prefix' => 'writer',
+    'as' => 'writer.'
+], function () {
+    Route::get('/publications', PublicationController::class)->name('publications');
+});
+
 Route::middleware([
     'auth:sanctum'
 ])->group(function () {

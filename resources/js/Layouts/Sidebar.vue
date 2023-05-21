@@ -105,6 +105,7 @@ import BurguerComponent from '~icons/BurguerComponent.vue'
 import { Link, router } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 import SecurityIcon from '@/svg-components/SecurityIcon.vue';
+import WriterIcon from '@/svg-components/WriterIcon.vue';
 const { t } = useI18n()
 const selected = ref('')
 const page = ref('')
@@ -143,52 +144,13 @@ const itemsMenu: TitleMenu[] = [
         items: [
             {
                 label: 'Dashboard',
-                to: '#',
-                icon: DashboardIcon,
-                children: [
-                    {
-                        label: 'Analytics',
-                        to: 'dashboard',
-                    }
-                ]
+                to: 'dashboard',
+                icon: DashboardIcon
             },
             {
-                label: 'Calendar',
-                to: 'calendar',
-                icon: CalendarIcon
-            },
-
-            {
-                label: 'Profile',
-                to: 'profile',
-                icon: ProfileIcon
-            },
-            {
-                label: 'Forms',
-                to: '#',
-                icon: FormIcon,
-                children: [
-                    {
-                        label: 'Form Elements',
-                        // to: 'form-layout.html',
-                        to: 'formElements',
-                    },
-                    {
-                        label: 'Form Layout',
-                        to: 'formLayout',
-                        // to: 'dashboard',
-                    }
-                ]
-            },
-            {
-                label: 'Tables',
-                to: 'tables',
-                icon: TableIcon
-            },
-            {
-                label: 'Settings',
-                to: 'settings',
-                icon: SettingIcon
+                label: t('menu.publication'),
+                to: 'writer.publications',
+                icon: WriterIcon
             },
             {
                 label: t('menu.settings'),
@@ -226,46 +188,6 @@ const itemsMenu: TitleMenu[] = [
                         label: t('menu.users'),
                         to: 'admin.security.users',
                     },
-                ]
-            },
-        ]
-    },
-    {
-        title: 'Others',
-        items: [
-            {
-                label: 'Chart',
-                to: 'charts',
-                icon: ChartIcon
-            },
-            {
-                label: 'UI Elements',
-                to: '#',
-                icon: Gridcolspan,
-                children: [
-                    {
-                        label: 'Alerts',
-                        to: 'alerts',
-                    },
-                    {
-                        label: 'Buttons',
-                        to: 'buttons',
-                    }
-                ]
-            },
-            {
-                label: 'Authentication',
-                to: '#',
-                icon: AuthIcon,
-                children: [
-                    {
-                        label: 'Sign In',
-                        to: 'login',
-                    },
-                    {
-                        label: 'Sign Up',
-                        to: 'register',
-                    }
                 ]
             },
         ]
