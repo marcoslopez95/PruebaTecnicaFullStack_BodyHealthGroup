@@ -2,7 +2,8 @@
   "button": {
     "create": "Crear",
     "back": "Atrás",
-    "save": "Guardar"
+    "save": "Guardar",
+    "update": "Actualizar"
   },
   "Actions": "Acciones",
   "id": "Id",
@@ -20,5 +21,9 @@
   },
   "create": {
     "view": "Crear {name}"
-  }
+  },
+  "update": {
+    "view": "Actualizar {name}"
+  },
+  "create-success": "Creado con éxito"
 }

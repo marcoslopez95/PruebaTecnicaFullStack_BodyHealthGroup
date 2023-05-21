@@ -23,7 +23,7 @@
                                 </ChipComponent>
                                 <span v-else class="text-center">{{ getValue(item, head) }}</span>
                                 <div v-if="withButtons && head.value == 'actions'" class="space-x-3.5">
-                                    <button class="hover:text-primary">
+                                    <button class="hover:text-primary" @click="emit('edit',item)">
                                         <EditIcon></EditIcon>
                                     </button>
                                     <button type="button" class="hover:text-primary" @click="openConfirmModal(item)">

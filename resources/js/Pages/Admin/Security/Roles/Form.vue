@@ -1,13 +1,13 @@
 <template>
     <div class="flex justify-between text-right my-3 mr-5">
         <div class="mx-5 my-auto">
-            <h1 class="font-extrabold text-2xl">{{ $t('commons.create.view', { name: $t('views.roles.title') }) }}</h1>
+            <h1 class="font-extrabold text-2xl">{{ getTitle() }}</h1>
         </div>
         <div>
             <ButtonComponent class="uppercase" @click="emit('index')">{{ $t('commons.button.back') }}</ButtonComponent>
         </div>
         <div>
-            <ButtonComponent class="uppercase" @click="emit('index')">{{ $t('commons.button.save') }}</ButtonComponent>
+            <ButtonComponent class="uppercase" @click="clickInSaveOrUpdate" isAsync>{{ getButton() }}</ButtonComponent>
         </div>
     </div>
     <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -60,10 +60,40 @@
 import ButtonComponent from '@/Components/ButtonComponent.vue';
 import MultiSelect from '@/Components/MultiSelect.vue';
 import TextInput from '@/Components/TextInput.vue'
+import { helperStore } from '@/helper';
 import { RoleStore } from '@/stores/RoleStore';
-import { RoleCreate } from 'resources/ts/interfaces/Role/Role.dto';
-import { ref } from 'vue'
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n()
+const helper = helperStore()
 const emit = defineEmits(['index'])
 const roleStore = RoleStore()
 
+const getTitle = () :string => {
+    if('id' in roleStore.form){
+        return t('commons.update.view', { name: t('views.roles.title') })
+    }
+    return t('commons.create.view', { name: t('views.roles.title') })
+}
+
+const getButton = () :string => {
+    if('id' in roleStore.form){
+        return t('commons.button.update')
+    }
+    return t('commons.button.save')
+}
+
+const clickInSaveOrUpdate = async () => {
+    try{
+        if('id' in roleStore.form){
+            const {id,...data} = roleStore.form
+            await helper.put(id,data)
+        }else {
+            await helper.create(roleStore.form)
+        }
+        emit('index')
+    }catch(e){
+
+    }
+
+}
 </script>

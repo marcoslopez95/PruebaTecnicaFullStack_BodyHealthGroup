@@ -5,8 +5,10 @@ import { ref, reactive } from 'vue'
 import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios'
 import { TYPE, useToast } from 'vue-toastification'
 import { ToastOptions } from 'vue-toastification/dist/types/types'
+import { useI18n } from 'vue-i18n'
 
 export const helperStore = defineStore('helper', () => {
+  const { t } = useI18n()
   const openHamburgerMenu = ref(false)
   const loading = ref()
   const items = ref()
@@ -125,11 +127,11 @@ export const helperStore = defineStore('helper', () => {
     })
   }
 
-  const put = (id: any, data: any) => {
+  const put = (id: any, data: any, notify= true) => {
     return new Promise(async (resolve, reject) => {
       try {
-
-        let response = await http(url.value + '/' + id, 'put', { data })
+        const message = notify ? t('commons.create-success') : ''
+        let response = await http(url.value + '/' + id, 'put', { data },message)
 
         resolve(response)
       } catch (err) {
@@ -138,10 +140,16 @@ export const helperStore = defineStore('helper', () => {
     })
   }
 
-  const create = (data: any) => {
+  const create = (data: any, notify= true) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let response = await http(url.value, 'post', { data })
+        const message = notify ? t('commons.create-success') : ''
+        let response = await http(
+          url.value,
+          'post',
+          { data },
+          message,
+        )
 
         resolve(response)
       } catch (err) {
