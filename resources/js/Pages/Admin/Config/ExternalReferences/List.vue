@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-between text-right my-3 mr-5">
         <div class="mx-5 my-auto">
-            <h1 class="font-extrabold text-2xl">{{ $t('views.publication-categories.title', 2) }}</h1>
+            <h1 class="font-extrabold text-2xl">{{ $t('views.external-references.title', 2) }}</h1>
         </div>
         <div>
             <ButtonComponent @click="clickInCreateOrEdit" class="uppercase">{{ $t('commons.button.create') }}</ButtonComponent>
@@ -38,8 +38,8 @@ const headers: Head[] = [
         value: 'name'
     },
     {
-        name: t('commons.description'),
-        value: 'description'
+        name: t('views.external-references.url'),
+        value: 'url'
     },
     {
         name: t('commons.status'),
@@ -49,7 +49,7 @@ const headers: Head[] = [
 
 ]
 //@ts-ignore
-url.value = route('api.v1.publication-categories.index')
+url.value = route('api.v1.external-references.index')
 
 helper.index()
 

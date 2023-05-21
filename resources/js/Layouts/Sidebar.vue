@@ -203,6 +203,10 @@ const itemsMenu: TitleMenu[] = [
                         label: t('menu.publication-categories'),
                         to: 'admin.config.publication-categories',
                     },
+                    {
+                        label: t('menu.external-references'),
+                        to: 'admin.config.external-references',
+                    },
                 ]
             },
             {

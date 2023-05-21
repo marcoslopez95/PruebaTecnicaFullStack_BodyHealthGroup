@@ -18,16 +18,15 @@
                         <label class="mb-2.5 block text-black dark:text-white">
                             {{ $t('commons.name') }} <span class="text-meta-1">*</span>
                         </label>
-                        <TextInput v-model="publicationCategoriesStore.form.name" />
+                        <TextInput v-model="externalReferenceStore.form.name" />
 
                     </div>
 
                     <div class="w-full xl:w-1/2">
                         <label class="mb-2.5 block text-black dark:text-white">
-                            {{ $t('commons.description') }}
+                            {{ $t('views.external-references.url') }} <span class="text-meta-1">*</span>
                         </label>
-                        <TextInput v-model="publicationCategoriesStore.form.description" />
-
+                        <TextInput v-model="externalReferenceStore.form.url" />
                     </div>
                 </div>
 
@@ -39,22 +38,22 @@
 import ButtonComponent from '@/Components/ButtonComponent.vue';
 import TextInput from '@/Components/TextInput.vue'
 import { helperStore } from '@/helper';
-import { PublicationCategoriesStore } from '@/stores/PublicationCategoriesStore';
+import { ExternalReferenceStore } from '@/stores/ExternalReferenceStore';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n()
 const helper = helperStore()
 const emit = defineEmits(['index'])
-const publicationCategoriesStore = PublicationCategoriesStore()
+const externalReferenceStore = ExternalReferenceStore()
 
 const getTitle = (): string => {
-    if ('id' in publicationCategoriesStore.form) {
-        return t('commons.update.view', { name: t('views.publication-categories.title') })
+    if ('id' in externalReferenceStore.form) {
+        return t('commons.update.view', { name: t('views.external-references.title') })
     }
-    return t('commons.create.view', { name: t('views.publication-categories.title') })
+    return t('commons.create.view', { name: t('views.external-references.title') })
 }
 
 const getButton = (): string => {
-    if ('id' in publicationCategoriesStore.form) {
+    if ('id' in externalReferenceStore.form) {
         return t('commons.button.update')
     }
     return t('commons.button.save')
@@ -62,11 +61,11 @@ const getButton = (): string => {
 
 const clickInSaveOrUpdate = async () => {
     try {
-        if ('id' in publicationCategoriesStore.form) {
-            const { id, ...data } = publicationCategoriesStore.form
+        if ('id' in externalReferenceStore.form) {
+            const { id, ...data } = externalReferenceStore.form
             await helper.put(id, data)
         } else {
-            await helper.create(publicationCategoriesStore.form)
+            await helper.create(externalReferenceStore.form)
         }
         emit('index')
     } catch (e) {

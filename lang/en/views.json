@@ -35,5 +35,9 @@
   },
   "publication-categories": {
     "title": "Publication Category | Publication Categories"
+  },
+  "external-references": {
+    "title": "External Reference | External References",
+    "url": "Url"
   }
 }

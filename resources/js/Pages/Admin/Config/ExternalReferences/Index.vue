@@ -1,5 +1,5 @@
 <template>
-    <AppLayout :title="$t('views.publication-categories.title')">
+    <AppLayout :title="$t('views.external-references.title')">
         <List v-if="!create" @create="create = true" />
         <Form v-else @index="create = false" />
     </AppLayout>
