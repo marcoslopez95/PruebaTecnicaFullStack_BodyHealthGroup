@@ -12,6 +12,8 @@ import {
 
 export const PublicationStore = defineStore('Publication', () => {
   const helper = helperStore()
+  const { pagination } = storeToRefs(helper)
+
   const region = RegionStore()
   const external_reference = ExternalReferenceStore()
   const publication_category = PublicationCategoriesStore()
@@ -24,11 +26,27 @@ export const PublicationStore = defineStore('Publication', () => {
   const { getPublicationCategories } = publication_category
 
   const publications = ref<Publication[]>([])
-  const getPublications = () => {
-    helper.http('/api/v1/admin/config/publications').then((res: any) => {
-      publications.value = res.data.data as Publication[]
+  const getPublications = (pushed = false) => {
+    if(pushed){
+        pagination.value.currentPage ++
+    }
+    pagination.value.perPage = 5
+    helper.http('/api/v1/publications','get',{
+        params:{
+            perPage: pagination.value.perPage,
+            currentPage: pagination.value.currentPage,
+            paginated: 1,
+        }
+    }).then((res: any) => {
+        if(pushed) {
+            publications.value.push(...res.data.data.data)
+            isEnd.value = false
+            return
+        }
+        publications.value = res.data.data.data as Publication[]
     })
   }
+  const isEnd = ref(false)
 
   const form = ref<PublicationCreate | PublicationUpdate>({
     labels: [],
@@ -58,5 +76,6 @@ export const PublicationStore = defineStore('Publication', () => {
     form,
     publications,
     getPublications,
+    isEnd
   }
 })
