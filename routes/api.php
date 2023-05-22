@@ -60,11 +60,11 @@ Route::group([
     Route::apiResource('external-references', ExternalReferenceController::class);
     Route::put('external-references/{external_reference}/restore', [ExternalReferenceController::class, 'restore'])->name('external-references.restore');
 
-    Route::apiResource('publications', PublicationController::class)->except('index');
+    Route::apiResource('publications', PublicationController::class);
     Route::put('publications/{publication}/restore', [PublicationController::class, 'restore'])->name('publications.restore');
 });
 
-Route::middleware('auth:sanctum')->get('publications', [PublicationController::class, 'index'])->name('publications.index');
+Route::middleware('auth:sanctum')->get('/publications', [PublicationController::class, 'index'])->name('publications.index-dash');
 
 Route::get('change-lang', function (Request $request) {
     App::setLocale($request->lang);
