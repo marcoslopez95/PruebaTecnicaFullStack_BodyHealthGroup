@@ -26,13 +26,14 @@ export const PublicationStore = defineStore('Publication', () => {
   const { getPublicationCategories } = publication_category
 
   const publications = ref<Publication[]>([])
-  const getPublications = (pushed = false) => {
+  const getPublications = (pushed = false, search = '') => {
     if(pushed){
         pagination.value.currentPage ++
     }
     pagination.value.perPage = 5
     helper.http('/api/v1/publications','get',{
         params:{
+            search,
             perPage: pagination.value.perPage,
             currentPage: pagination.value.currentPage,
             paginated: 1,

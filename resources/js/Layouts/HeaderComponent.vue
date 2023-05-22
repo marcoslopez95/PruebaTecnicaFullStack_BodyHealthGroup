@@ -34,9 +34,9 @@
                 </a>
             </div>
             <div class="hidden sm:block">
-                <form action="https://formbold.com/s/unique_form_id" method="POST">
+                <form method="get" :action="route('dashboard')">
                     <div class="relative">
-                        <button class="absolute top-1/2 left-0 -translate-y-1/2">
+                        <button type="submit" class="absolute top-1/2 left-0 -translate-y-1/2">
                             <svg class="fill-body hover:fill-primary dark:fill-bodydark dark:hover:fill-primary" width="20"
                                 height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -48,7 +48,10 @@
                             </svg>
                         </button>
 
-                        <input type="text" :placeholder="$t('views.header.search')"
+                        <input
+                        name="search"
+                        type="text"
+                        :placeholder="$t('views.header.search')"
                             class="w-full bg-transparent pr-4 pl-9 focus:outline-none border-0 focus:ring-0" />
                     </div>
                 </form>
@@ -179,6 +182,7 @@ const logout = () => {
 }
 
 const user = JSON.parse(localStorage.getItem('user')!)
+
 </script>
 
 <style scoped></style>
