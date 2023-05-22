@@ -104,9 +104,9 @@ export const helperStore = defineStore('helper', () => {
     let response: any = await http(url.value, 'get', {
       params: {
         ...params,
-        perPage: pagination.perPage,
-        currentPage: pagination.currentPage,
-        paginated: 1,
+        // perPage: pagination.perPage,
+        // currentPage: pagination.currentPage,
+        // paginated: 1,
         ...params.value,
       },
     })

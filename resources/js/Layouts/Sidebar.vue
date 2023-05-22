@@ -38,6 +38,7 @@
           <!-- Menu Item Dashboard -->
           <li v-for="item,k in menu.items" :key="k">
             <a
+              v-if="itemsMenuValidated(item.role!)"
               class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
               :href="item.children ?'#' : //@ts-ignore
               route(item.to)"
@@ -65,6 +66,8 @@
               <ul class="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
                 <li v-for="child,j in item.children" :key="j">
                   <a
+                    v-if="itemsMenuValidated(item.role!)"
+
                     class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
                     :href="// @ts-ignore
                     route(child.to)"
@@ -93,19 +96,17 @@ import {   DefineComponent, ref } from 'vue';
 import { storeToRefs } from 'pinia'
 import DashboardIcon from '~icons/dashboardIcon.vue';
 import ArrowIcon from '~icons/ArrowIcon.vue';
-import CalendarIcon from '~icons/CalendarIcon.vue'
-import ProfileIcon from '~icons/ProfileIcon.vue'
-import FormIcon from '~icons/FormIcon.vue'
-import TableIcon from '~icons/TableIcon.vue'
 import SettingIcon from '~icons/SettingIcon.vue'
-import ChartIcon from '~icons/ChartIcon.vue'
-import Gridcolspan from '~icons/Gridcolspan.vue'
-import AuthIcon from '~icons/AuthIcon.vue'
 import BurguerComponent from '~icons/BurguerComponent.vue'
-import { Link, router } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 import SecurityIcon from '@/svg-components/SecurityIcon.vue';
 import WriterIcon from '@/svg-components/WriterIcon.vue';
+enum ROLE {
+    ADMIN = 'Admin',
+    WRITER = 'Writer',
+    USER = 'User',
+    ALL = 0
+}
 const { t } = useI18n()
 const selected = ref('')
 const page = ref('')
@@ -138,6 +139,18 @@ const getAllToForItem = (element: ItemMenu): string[] =>{
     return element.children.map((e)=>(e.label))
 }
 
+const itemsMenuValidated = (roles:ROLE[]): boolean => {
+    if(roles[0] === ROLE.ALL) return true
+
+    const roleAuth = JSON.parse(localStorage.getItem('user')!)
+                        .roles[0].name
+    return roles.find((rol)=> {
+        console.log('role',rol)
+        console.log('role auth',roleAuth)
+        return rol === roleAuth
+    }) ? true : false
+}
+
 const itemsMenu: TitleMenu[] = [
     {
         title: 'Menu',
@@ -145,29 +158,36 @@ const itemsMenu: TitleMenu[] = [
             {
                 label: 'Dashboard',
                 to: 'dashboard',
-                icon: DashboardIcon
+                icon: DashboardIcon,
+                role: [ROLE.ALL]
+
             },
             {
                 label: t('menu.publication'),
                 to: 'writer.publications',
-                icon: WriterIcon
+                icon: WriterIcon,
+                role: [ROLE.ADMIN,ROLE.WRITER]
             },
             {
                 label: t('menu.settings'),
                 to: '#',
                 icon: SettingIcon,
+                role: [ROLE.ADMIN],
                 children: [
                     {
                         label: t('menu.regions'),
                         to: 'admin.config.regions',
+                        role: [ROLE.ADMIN],
                     },
                     {
                         label: t('menu.publication-categories'),
                         to: 'admin.config.publication-categories',
+                        role: [ROLE.ADMIN],
                     },
                     {
                         label: t('menu.external-references'),
                         to: 'admin.config.external-references',
+                        role: [ROLE.ADMIN],
                     },
                 ]
             },
@@ -175,18 +195,22 @@ const itemsMenu: TitleMenu[] = [
                 label: t('menu.security'),
                 to: '#',
                 icon: SecurityIcon,
+                role: [ROLE.ADMIN],
                 children: [
                     {
                         label: t('menu.roles'),
                         to: 'admin.security.roles',
+                        role: [ROLE.ADMIN],
                     },
                     {
                         label: t('menu.permissions'),
                         to: 'admin.security.permissions',
+                        role: [ROLE.ADMIN],
                     },
                     {
                         label: t('menu.users'),
                         to: 'admin.security.users',
+                        role: [ROLE.ADMIN],
                     },
                 ]
             },
@@ -199,12 +223,16 @@ interface ItemMenu {
     icon?: DefineComponent<{}, {}, any>
     children?: ItemMenu[]
     title?: string
+    role?: ROLE[]
+
 }
 
 interface TitleMenu{
     title?: string
-    items: ItemMenu[]
+    items: ItemMenu[],
+    role?: ROLE[]
 }
+
 
 </script>
 
