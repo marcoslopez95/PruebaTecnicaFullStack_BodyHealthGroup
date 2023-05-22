@@ -135,7 +135,7 @@ class PublicationTest extends TestCase
                                 'url' => $externalReference->url,
                                 'isDeleted'  => $externalReference->isDeleted,
                             ];
-                    })->toArray(),
+                        })->toArray(),
                     'publication_category'  => [
                         'id' => $publication->publicationCategory->id,
                         'name' => $publication->publicationCategory->name,
@@ -181,14 +181,14 @@ class PublicationTest extends TestCase
                                     'url' => $externalReference->url,
                                     'isDeleted'  => $externalReference->isDeleted,
                                 ];
-                        })->toArray(),
+                            })->toArray(),
                         'publication_category'  => [
                             'id' => $publication->publicationCategory->id,
                             'name' => $publication->publicationCategory->name,
                             'description' => $publication->publicationCategory->description,
                             'isDeleted'  => $publication->publicationCategory->isDeleted,
                         ],
-                ];
+                    ];
                 })->toArray(),
                 "message" => __('generals.success-index', ['name' => 'Publication'])
             ]);
@@ -202,7 +202,7 @@ class PublicationTest extends TestCase
             ->for(User::factory()->create())
             ->has(ExternalReference::factory()->count(3))
             ->create();
-        $response = $this->putJson(route('api.v1.publications.update', ['publication'=>$publication->id]), []);
+        $response = $this->putJson(route('api.v1.publications.update', ['publication' => $publication->id]), []);
 
         $errors = [
             'content',
@@ -210,13 +210,13 @@ class PublicationTest extends TestCase
         ];
         $response->assertJsonValidationErrors($errors);
 
-        $response = $this->putJson(route('api.v1.publications.update', ['publication'=>$publication->id]), [
+        $response = $this->putJson(route('api.v1.publications.update', ['publication' => $publication->id]), [
             'labels'              => [1],
             'region_id'           => 0,
             'external_references' => ['a'],
         ]);
 
-        $errors= [
+        $errors = [
             'publication_category_id',
             'labels.0',
             'region_id',
@@ -228,11 +228,11 @@ class PublicationTest extends TestCase
     public function test_update_publication_for_api_with_all_fields(): void
     {
         $publication = Publication::factory()
-        ->for(Region::factory()->create())
-        ->for(PublicationCategory::factory()->create())
-        ->for(User::factory()->create())
-        ->has(ExternalReference::factory()->count(3))
-        ->create();
+            ->for(Region::factory()->create())
+            ->for(PublicationCategory::factory()->create())
+            ->for(User::factory()->create())
+            ->has(ExternalReference::factory()->count(3))
+            ->create();
 
         $labels = [];
 
@@ -243,7 +243,7 @@ class PublicationTest extends TestCase
         $region = Region::factory(5)->create()->random()->first();
         $publicationCategory = PublicationCategory::factory()->create();
         $response = $this
-            ->putJson(route('api.v1.publications.update', ['publication'=> $publication->id]), [
+            ->putJson(route('api.v1.publications.update', ['publication' => $publication->id]), [
                 'content'                 => $content = $this->faker->text(),
                 'labels'                  => $labels,
                 'region_id'               => $region->id,
@@ -275,7 +275,7 @@ class PublicationTest extends TestCase
 
         $publicationCategory = PublicationCategory::factory()->create();
         $response = $this
-            ->putJson(route('api.v1.publications.update', ['publication'=>$publication->id]), [
+            ->putJson(route('api.v1.publications.update', ['publication' => $publication->id]), [
                 'content'                 => $content = $this->faker->text(),
                 'publication_category_id' => $publicationCategory->id
             ]);
@@ -293,11 +293,11 @@ class PublicationTest extends TestCase
     public function test_destroy_publication_for_api(): void
     {
         $publication = Publication::factory()
-                ->for(Region::factory()->create())
-                ->for(PublicationCategory::factory()->create())
-                ->for(User::factory()->create())
-                ->has(ExternalReference::factory()->count(3))
-                ->create();
+            ->for(Region::factory()->create())
+            ->for(PublicationCategory::factory()->create())
+            ->for(User::factory()->create())
+            ->has(ExternalReference::factory()->count(3))
+            ->create();
         $response = $this->deleteJson(route('api.v1.publications.destroy', ['publication' => $publication->id]));
 
         $response->assertNoContent();
@@ -308,11 +308,11 @@ class PublicationTest extends TestCase
     public function test_restore_publication_for_api(): void
     {
         $publication = Publication::factory()
-        ->for(Region::factory()->create())
-        ->for(PublicationCategory::factory()->create())
-        ->for(User::factory()->create())
-        ->has(ExternalReference::factory()->count(3))
-        ->create();
+            ->for(Region::factory()->create())
+            ->for(PublicationCategory::factory()->create())
+            ->for(User::factory()->create())
+            ->has(ExternalReference::factory()->count(3))
+            ->create();
         $publication->delete();
 
         $response = $this->putJson(route('api.v1.publications.restore', ['publication' => $publication->id]));
@@ -322,5 +322,58 @@ class PublicationTest extends TestCase
         $this->assertModelExists($publication);
         $this->assertNull($publication->deleted_at);
     }
-}
 
+    public function test_index_publication_for_dashboard_with_paginated(): void
+    {
+
+        $publications = Publication::limit(15)->get();
+        if ($publications->count() == 0) {
+            $publications = Publication::factory(2)
+                ->for(Region::factory()->create())
+                ->for(PublicationCategory::factory()->create())
+                ->for(User::factory()->create())
+                ->has(ExternalReference::factory()->count(3))
+                ->create();
+        }
+        $response = $this->getJson(route('api.v1.publications.index', [
+            'paginated'   => 1,
+            'currentPage' => 1,
+            'perPage' => 30
+        ]));
+        $response->assertOk()
+            ->assertJson([
+                "data" => [
+                    'data' => $publications->map(function (Publication $publication) {
+                        return [
+                            'id' => $publication->id,
+                            'content' => $publication->content,
+                            'labels' => $publication->labels,
+                            'isDeleted'  => $publication->isDeleted,
+                            'created_at' => (string) \Carbon\Carbon::parse($publication->created_at)->format('m-d-Y H:i'),
+                            'region'  => [
+                                'id' => $publication->region->id,
+                                'name' => $publication->region->name,
+                                'isDeleted'  => $publication->region->isDeleted,
+                            ],
+                            'external_references'  => $publication->ExternalReferences
+                                ->map(function (ExternalReference $externalReference) {
+                                    return [
+                                        'id' => $externalReference->id,
+                                        'name' => $externalReference->name,
+                                        'url' => $externalReference->url,
+                                        'isDeleted'  => $externalReference->isDeleted,
+                                    ];
+                                })->toArray(),
+                            'publication_category'  => [
+                                'id' => $publication->publicationCategory->id,
+                                'name' => $publication->publicationCategory->name,
+                                'description' => $publication->publicationCategory->description,
+                                'isDeleted'  => $publication->publicationCategory->isDeleted,
+                            ],
+                        ];
+                    })->toArray()
+                ],
+                "message" => __('generals.success-index', ['name' => 'Publication'])
+            ]);
+    }
+}

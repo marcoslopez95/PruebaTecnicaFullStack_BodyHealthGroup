@@ -10,6 +10,7 @@ use App\Http\Requests\Writer\PublicationCreateRequest;
 use App\Http\Requests\Writer\PublicationUpdateRequest;
 use App\Http\Resources\Write\PublicationResource;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PublicationController extends Controller
@@ -17,16 +18,20 @@ class PublicationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $publications = Publication::withTrashed()->with([
+        $publications = Publication::withTrashed(isAdmin())->with([
             'region',
             'publicationCategory',
             'externalReferences',
         ])->get();
+
+        $publications = $request->paginated
+            ? PublicationResource::collection($publications)->paginate($request->perPage ?? 15)
+            : PublicationResource::collection($publications);
         return customResponseSucessfull(
             __('generals.success-index', ['name' => 'Publication']),
-            PublicationResource::collection($publications)
+            $publications
         );
     }
 
@@ -37,7 +42,7 @@ class PublicationController extends Controller
     {
         DB::beginTransaction();
         try {
-            $request->merge(['user_id'=>auth()->id()]);
+            $request->merge(['user_id' => auth()->id()]);
             $publication = Publication::create($request->only([
                 'content',
                 'labels',
@@ -78,7 +83,7 @@ class PublicationController extends Controller
     {
         DB::beginTransaction();
         try {
-            $request->merge(['user_id'=>auth()->id()]);
+            $request->merge(['user_id' => auth()->id()]);
             $publication->update($request->only([
                 'content',
                 'labels',
