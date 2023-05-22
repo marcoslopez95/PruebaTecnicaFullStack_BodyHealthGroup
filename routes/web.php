@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\Web\Admin\Config\ExternalReferenceController;
+use App\Http\Controllers\Web\Admin\Config\PublicationCategoryController;
+use App\Http\Controllers\Web\Admin\Config\RegionController;
+use App\Http\Controllers\Web\Admin\Security\PermissionController;
+use App\Http\Controllers\Web\Admin\Security\RoleController;
+use App\Http\Controllers\Web\Admin\Security\UserController;
+use App\Http\Controllers\Web\Writer\PublicationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -15,30 +22,49 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('dashboard');
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+Route::get('/', fn () => response()->redirectTo(route('dashboard')));
+
+Route::group([
+    'middleware' => 'auth:sanctum',
+    'prefix' => 'admin/security',
+    'as' => 'admin.security.'
+], function () {
+
+    Route::get('/roles', [RoleController::class, 'index'])->name('roles');
+    Route::get('/permissions', PermissionController::class)->name('permissions');
+    Route::get('/users', UserController::class)->name('users');
 });
-Route::prefix('template')->group(function () {
-    Route::get('/',function () {
-        return view('template.index');
-    });
+
+Route::group([
+    'middleware' => 'auth:sanctum',
+    'prefix' => 'admin/config',
+    'as' => 'admin.config.'
+], function () {
+
+    Route::get('/regions', RegionController::class)->name('regions');
+    Route::get('/publication-categories', PublicationCategoryController::class)->name('publication-categories');
+    Route::get('/external-references', ExternalReferenceController::class)->name('external-references');
+    Route::get('/external-references', ExternalReferenceController::class)->name('external-references');
+});
+
+Route::group([
+    'middleware' => ['auth:sanctum', 'role_or_permission:Admin|create publication'],
+    'prefix' => 'writer',
+    'as' => 'writer.'
+], function () {
+    Route::get('/publications', PublicationController::class)->name('publications');
 });
 
 Route::middleware([
-    'auth',
-    // config('jetstream.auth_session'),
-    // 'verified',
+    'auth:sanctum'
 ])->group(function () {
     //template
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', function () {
+        return Inertia::render('Dashboard', [
+            'user' => auth()->user(),
+            'is_admin' => isAdmin()
+        ]);
+    })->middleware('auth:sanctum')->name('dashboard');
 
     Route::prefix('template')->group(function () {
         Route::get('/calendar', function () {
@@ -76,9 +102,5 @@ Route::middleware([
         Route::get('/buttons', function () {
             return Inertia::render('template/Buttons');
         })->name('buttons');
-        // Route::get('/register', function () {
-        //     return Inertia::render('Dashboard');
-        // })->name('register');
     });
-
 });

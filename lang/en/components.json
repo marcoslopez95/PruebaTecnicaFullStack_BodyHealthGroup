@@ -1,0 +1,12 @@
+{
+  "pagination": {
+    "showning": "Showning",
+    "to": "to",
+    "of": "of",
+    "results": "results"
+  },
+  "multiselect": {
+    "select-options": "Select options"
+  },
+  "select-only": "Select..."
+}

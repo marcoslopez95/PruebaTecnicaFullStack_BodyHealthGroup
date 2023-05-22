@@ -1,0 +1,34 @@
+{
+  "button": {
+    "create": "Crear",
+    "back": "Atrás",
+    "save": "Guardar",
+    "update": "Actualizar"
+  },
+  "Actions": "Acciones",
+  "id": "Id",
+  "name": "Nombre",
+  "active": "Activo",
+  "inactive": "Inactivo",
+  "no-data": "Sin datos",
+  "close": "Cerrar",
+  "confirm": "Confirmar",
+  "confirm-delete": "¿Estás seguro de querer eliminar?",
+  "confirm-delete-title": "Confirmar Borrado",
+  "restore": {
+    "title": "Confirmar restaurar",
+    "content": "¿Estás seguro que desea restaurar?"
+  },
+  "create": {
+    "view": "Crear {name}"
+  },
+  "update": {
+    "view": "Actualizar {name}"
+  },
+  "create-success": "Creado con éxito",
+  "update-success": "Actualizado con éxito",
+  "email": "Correo Electrónico",
+  "created_at": "Registrado",
+  "status": "Estado",
+  "description": "Descripción"
+}

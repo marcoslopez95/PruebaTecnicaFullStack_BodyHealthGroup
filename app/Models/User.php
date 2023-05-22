@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\OrderByIdScope;
 use App\Traits\IsDeletedModelTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -71,5 +72,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Publication::class);
     }
-
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new OrderByIdScope);
+    }
 }

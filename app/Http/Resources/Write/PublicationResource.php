@@ -22,8 +22,7 @@ class PublicationResource extends JsonResource
             'content' => $this->resource->content,
             'labels' => $this->resource->labels,
             'isDeleted'  => $this->resource->isDeleted,
-            'created_at'  => (string) \Carbon\Carbon::parse($this->resource->created_at)->format('m-d-Y H:i'),
-
+            'created_at' => \Carbon\Carbon::parse($this->resource->created_at)->format('m-d-Y H:i'),
             'region'  => $this->whenLoaded('region', fn () => RegionResource::make($this->resource->region)),
             'external_references'  => $this->whenLoaded('externalReferences', function () {
                 return ExternalReferenceResource::collection($this->resource->externalReferences);

@@ -94,7 +94,7 @@ class UserTest extends TestCase
 
         $response = $this->getJson(route('api.v1.users.index'));
 
-        $users = User::all();
+        $users = User::withTrashed()->get();
         $response->assertOk()
             ->assertJson([
                 "data" => $users->map(function (User $userIterable) {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Scopes\OrderByIdScope;
+use App\Traits\IsDeletedModelTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Publication extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes, IsDeletedModelTrait;
 
     protected $fillable = [
         'content',
@@ -30,8 +31,8 @@ class Publication extends Model
     protected function labels(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => explode(',', $value),
-            set: fn (array $value) => implode(',', $value),
+            get: fn ($value) => !empty($value) ? explode(',', $value) : null,
+            set: fn (array $value) => !empty($value) ? implode(',', $value) : null,
         );
     }
 

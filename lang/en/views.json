@@ -1,0 +1,54 @@
+{
+  "login": {
+    "login": "Welcome!",
+    "email": "Email",
+    "sign-in-title": "Sign In",
+    "placeholder": {
+      "email": "Enter your email",
+      "password": "6 characters min."
+    },
+    "password": "Password",
+    "button": "Sign In",
+    "donot-have-account": "Don't have any account?",
+    "register": "Sign Up",
+    "sign-in-chipset": "Sign In",
+    "head": "Log in"
+  },
+  "header": {
+    "search": "Search..."
+  },
+  "roles": {
+    "title": "Role | Roles",
+    "guard_name": "Guard Name"
+  },
+  "permissions": {
+    "title": "Permission | Permissions",
+    "guard_name": "Guard Name"
+  },
+  "users": {
+    "title": "User | Users",
+    "password": "Password",
+    "password_confirmation": "Confirmed Password"
+  },
+  "regions": {
+    "title": "Region | Regions"
+  },
+  "publication-categories": {
+    "title": "Publication Category | Publication Categories"
+  },
+  "external-references": {
+    "title": "External Reference | External References",
+    "url": "Url"
+  },
+  "publications": {
+    "title": "Publication | Publications",
+    "labels": "Labels",
+    "agg-label": "Add Label",
+    "label-instructions": "write a text and press enter. Click in label for delete",
+    "content-type": "Type the content (max. 255 characters)",
+    "content": "Content"
+  },
+  "dashboard": {
+    "read-more": "Read more in"
+  }
+}

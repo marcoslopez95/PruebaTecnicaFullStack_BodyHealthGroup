@@ -102,7 +102,11 @@ import ChartIcon from '~icons/ChartIcon.vue'
 import Gridcolspan from '~icons/Gridcolspan.vue'
 import AuthIcon from '~icons/AuthIcon.vue'
 import BurguerComponent from '~icons/BurguerComponent.vue'
-
+import { Link, router } from '@inertiajs/vue3';
+import { useI18n } from 'vue-i18n';
+import SecurityIcon from '@/svg-components/SecurityIcon.vue';
+import WriterIcon from '@/svg-components/WriterIcon.vue';
+const { t } = useI18n()
 const selected = ref('')
 const page = ref('')
 const helper = helperStore()
@@ -140,90 +144,50 @@ const itemsMenu: TitleMenu[] = [
         items: [
             {
                 label: 'Dashboard',
+                to: 'dashboard',
+                icon: DashboardIcon
+            },
+            {
+                label: t('menu.publication'),
+                to: 'writer.publications',
+                icon: WriterIcon
+            },
+            {
+                label: t('menu.settings'),
                 to: '#',
-                icon: DashboardIcon,
+                icon: SettingIcon,
                 children: [
                     {
-                        label: 'Analytics',
-                        to: 'dashboard',
-                    }
+                        label: t('menu.regions'),
+                        to: 'admin.config.regions',
+                    },
+                    {
+                        label: t('menu.publication-categories'),
+                        to: 'admin.config.publication-categories',
+                    },
+                    {
+                        label: t('menu.external-references'),
+                        to: 'admin.config.external-references',
+                    },
                 ]
             },
             {
-                label: 'Calendar',
-                to: 'calendar',
-                icon: CalendarIcon
-            },
-            {
-                label: 'Profile',
-                to: 'profile',
-                icon: ProfileIcon
-            },
-            {
-                label: 'Forms',
+                label: t('menu.security'),
                 to: '#',
-                icon: FormIcon,
+                icon: SecurityIcon,
                 children: [
                     {
-                        label: 'Form Elements',
-                        // to: 'form-layout.html',
-                        to: 'formElements',
+                        label: t('menu.roles'),
+                        to: 'admin.security.roles',
                     },
                     {
-                        label: 'Form Layout',
-                        to: 'formLayout',
-                        // to: 'dashboard',
-                    }
-                ]
-            },
-            {
-                label: 'Tables',
-                to: 'tables',
-                icon: TableIcon
-            },
-            {
-                label: 'Settings',
-                to: 'settings',
-                icon: SettingIcon
-            },
-        ]
-    },
-    {
-        title: 'Others',
-        items: [
-            {
-                label: 'Chart',
-                to: 'charts',
-                icon: ChartIcon
-            },
-            {
-                label: 'UI Elements',
-                to: '#',
-                icon: Gridcolspan,
-                children: [
-                    {
-                        label: 'Alerts',
-                        to: 'alerts',
+                        label: t('menu.permissions'),
+                        to: 'admin.security.permissions',
                     },
                     {
-                        label: 'Buttons',
-                        to: 'buttons',
-                    }
-                ]
-            },
-            {
-                label: 'Authentication',
-                to: '#',
-                icon: AuthIcon,
-                children: [
-                    {
-                        label: 'Sign In',
-                        to: 'dashboard',
+                        label: t('menu.users'),
+                        to: 'admin.security.users',
                     },
-                    {
-                        label: 'Sign Up',
-                        to: 'register',
-                    }
                 ]
             },
         ]
@@ -241,6 +205,7 @@ interface TitleMenu{
     title?: string
     items: ItemMenu[]
 }
+
 </script>
 
 <style scoped>

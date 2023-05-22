@@ -1,0 +1,52 @@
+{
+  "login": {
+    "login": "¡Bievenido!",
+    "email": "Correo Electrónico",
+    "sign-in-title": "Iniciar Sesión",
+    "placeholder": {
+      "email": "Introduzca su correo",
+      "password": "6 carácteres mínimo"
+    },
+    "password": "Contraseña",
+    "button": "Iniciar Sesión",
+    "donot-have-account": "¿No tienes cuenta?",
+    "register": "Registrarse",
+    "sign-in-chipset": "Iniciar Sesión",
+    "head": "Inicio de sesión"
+  },
+  "header": {
+    "search": "Buscar..."
+  },
+  "roles": {
+    "title": "Rol | Roles",
+    "guard_name": "Guard Name"
+  },
+  "permissions": {
+    "title": "Permiso | Permisos",
+    "guard_name": "Guard Name"
+  },
+  "users": {
+    "title": "Usuario | Usuarios",
+    "password": "Contraseña"
+  },
+  "regions": {
+    "title": "Región | Regiones"
+  },
+  "publication-categories": {
+    "title": "Categoría de Publicación | Categorías de Publicaciones"
+  },
+  "external-references": {
+    "url": "Url"
+  },
+  "publications": {
+    "title": "Publicación | Publicaciones",
+    "labels": "Etiquetas",
+    "agg-label": "Agregue etiqueta",
+    "label-instructions": "Escriba un texto y presione enter. Presione sobre la etiqueta para eliminar",
+    "content-type": "Íngrese el contenido (max. 255 caracteres)",
+    "content": "Contenido"
+  },
+  "dashboard": {
+    "read-more": "Leer más en"
+  }
+}

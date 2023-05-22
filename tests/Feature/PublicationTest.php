@@ -121,7 +121,7 @@ class PublicationTest extends TestCase
                     'content' => $publication->content,
                     'labels' => $publication->labels,
                     'isDeleted'  => $publication->isDeleted,
-                    'created_at'  => $publication->created_at->toString(),
+                    'created_at' => (string) \Carbon\Carbon::parse($publication->created_at)->format('m-d-Y H:i'),
                     'region'  => [
                         'id' => $publication->region->id,
                         'name' => $publication->region->name,
@@ -167,7 +167,7 @@ class PublicationTest extends TestCase
                         'content' => $publication->content,
                         'labels' => $publication->labels,
                         'isDeleted'  => $publication->isDeleted,
-                        'created_at'  => $publication->created_at->toString(),
+                        'created_at' => (string) \Carbon\Carbon::parse($publication->created_at)->format('m-d-Y H:i'),
                         'region'  => [
                             'id' => $publication->region->id,
                             'name' => $publication->region->name,

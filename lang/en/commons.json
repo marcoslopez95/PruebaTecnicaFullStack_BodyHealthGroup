@@ -1,0 +1,34 @@
+{
+  "button": {
+    "create": "Create",
+    "back": "Back",
+    "save": "Save",
+    "update": "Update"
+  },
+  "Actions": "Actions",
+  "id": "Id",
+  "name": "Name",
+  "active": "Active",
+  "inactive": "Inactive",
+  "no-data": "No data",
+  "close": "Close",
+  "confirm": "Confirm",
+  "confirm-delete": "You are sure you want to delete?",
+  "confirm-delete-title": "Confirm Delete",
+  "restore": {
+    "title": "Confirm Restore",
+    "content": "You are sure you want to restore?"
+  },
+  "create": {
+    "view": "Create {name}"
+  },
+  "update": {
+    "view": "Update {name}"
+  },
+  "create-success": "Create Successfull",
+  "update-success": "Update successfull",
+  "email": "Email",
+  "created_at": "Created At",
+  "status": "Status",
+  "description": "Description"
+}
