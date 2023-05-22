@@ -48,5 +48,19 @@
   },
   "dashboard": {
     "read-more": "Leer más en"
+  },
+  "register": {
+    "success": "Registro Exitoso",
+    "sign-up": "Registrarse",
+    "placeholder": {
+      "name": "Introduzca su nombre completo",
+      "email": "Introduzca su correo electrónico",
+      "password": "Introduzca su contraseña",
+      "password-confirm": "Introduzca de nuevo su contraseña"
+    },
+    "password": "Contraseña",
+    "password-confirm": "Confirmar Contraseña",
+    "already-have-an-account": "¿Ya tienes una cuenta?",
+    "button": "Crear Cuenta"
   }
 }

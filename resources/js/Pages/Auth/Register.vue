@@ -1,26 +1,33 @@
-<script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import Checkbox from '@/Components/Checkbox.vue';
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Head, router } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import AppLayout from '@/Layouts/AppLayout.vue';
-
-const form = useForm({
+import { helperStore } from '@/helper';
+import { useI18n } from 'vue-i18n';
+import LoadingIcon from '@/svg-components/LoadingIcon.vue';
+const helper = helperStore()
+const { t } = useI18n()
+const form = ref({
     name: '',
     email: '',
     password: '',
     password_confirmation: '',
-    terms: false,
 });
 
-const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
+const submit = async () => {
+    helper
+        //@ts-ignore
+        .http(route('api.v1.register'),'post',{data:form.value},t('views.register.success'))
+        .then(()=> {
+            form.value = {
+                name: '',
+                email: '',
+                password: '',
+                password_confirmation: '',
+            }
+            //@ts-ignore
+            router.get(route('login'))
+        })
 };
 </script>
 
@@ -31,13 +38,13 @@ const submit = () => {
           <!-- Breadcrumb Start -->
           <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <h2 class="text-title-md2 font-bold text-black dark:text-white">
-              Sign Up
+              {{$t('views.register.sign-up')}}
             </h2>
 
             <nav>
               <ol class="flex items-center gap-2">
                 <li><a class="font-medium" :href="route('dashboard')">Dashboard /</a></li>
-                <li class="font-medium text-primary">Sign Up</li>
+                <li class="font-medium text-primary">{{$t('views.register.sign-up')}}</li>
               </ol>
             </nav>
           </div>
@@ -48,17 +55,8 @@ const submit = () => {
             <div class="flex flex-wrap items-center">
               <div class="hidden w-full xl:block xl:w-1/2">
                 <div class="py-17.5 px-26 text-center">
-                  <a class="mb-5.5 inline-block" href="index.html">
-                    <img class="hidden dark:block" src="/images/logo/logo.svg" alt="Logo" />
-                    <img class="dark:hidden" src="/images/logo/logo-dark.svg" alt="Logo" />
-                  </a>
 
-                  <p class="font-medium 2xl:px-20">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    suspendisse.
-                  </p>
-
-                  <span class="mt-15 inline-block">
+                  <span class="inline-block">
                     <svg width="350" height="350" viewBox="0 0 350 350" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M33.5825 294.844L30.5069 282.723C25.0538 280.414 19.4747 278.414 13.7961 276.732L13.4079 282.365L11.8335 276.159C4.79107 274.148 0 273.263 0 273.263C0 273.263 6.46998 297.853 20.0448 316.653L35.8606 319.429L23.5737 321.2C25.2813 323.253 27.1164 325.196 29.0681 327.019C48.8132 345.333 70.8061 353.736 78.1898 345.787C85.5736 337.838 75.5526 316.547 55.8074 298.235C49.6862 292.557 41.9968 288.001 34.2994 284.415L33.5825 294.844Z"
@@ -144,18 +142,18 @@ const submit = () => {
               </div>
               <div class="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
                 <div class="w-full p-4 sm:p-12.5 xl:p-17.5">
-                  <span class="mb-1.5 block font-medium">Start for free</span>
+
                   <h2 class="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                    Sign Up to TailAdmin
+                    {{$t('views.register.sign-up')}}
                   </h2>
 
-                  <form>
+                  <form @submit.prevent="submit">
                     <div class="mb-4">
-                      <label class="mb-2.5 block font-medium text-black dark:text-white">Name</label>
+                      <label class="mb-2.5 block font-medium text-black dark:text-white">{{$t('commons.name')}}</label>
                       <div class="relative">
                         <input
                             type="text"
-                            placeholder="Enter your full name"
+                            :placeholder="$t('views.register.placeholder.name')"
                             v-model="form.name"
                             required
                             autofocus
@@ -174,7 +172,6 @@ const submit = () => {
                             </g>
                           </svg>
                         </span>
-                        <InputError class="mt-2" :message="form.errors.name" />
                       </div>
                     </div>
 
@@ -185,7 +182,8 @@ const submit = () => {
                         type="email"
                         required
                         v-model="form.email"
-                        placeholder="Enter your email"
+                        :placeholder="$t('views.register.placeholder.email')"
+
                           class="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" />
 
                         <span class="absolute right-4 top-4">
@@ -198,17 +196,17 @@ const submit = () => {
                             </g>
                           </svg>
                         </span>
-                        <InputError class="mt-2" :message="form.errors.email" />
                       </div>
                     </div>
 
                     <div class="mb-4">
-                      <label class="mb-2.5 block font-medium text-black dark:text-white">Password</label>
+                      <label class="mb-2.5 block font-medium text-black dark:text-white">{{$t('views.register.password')}}</label>
                       <div class="relative">
                         <input type="password"
                         v-model="form.password"
                         required
-                        placeholder="Enter your password"
+                        :placeholder="$t('views.register.placeholder.password')"
+
                           class="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" />
 
                         <span class="absolute right-4 top-4">
@@ -224,17 +222,17 @@ const submit = () => {
                             </g>
                           </svg>
                         </span>
-                        <InputError class="mt-2" :message="form.errors.password" />
                       </div>
                     </div>
 
                     <div class="mb-6">
-                      <label class="mb-2.5 block font-medium text-black dark:text-white">Re-type Password</label>
+                      <label class="mb-2.5 block font-medium text-black dark:text-white">{{$t('views.register.password-confirm')}}</label>
                       <div class="relative">
                         <input type="password"
                         v-model="form.password_confirmation"
                         required
-                        placeholder="Re-enter your password"
+                        :placeholder="$t('views.register.placeholder.password-confirm')"
+
                           class="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" />
 
                         <span class="absolute right-4 top-4">
@@ -250,47 +248,29 @@ const submit = () => {
                             </g>
                           </svg>
                         </span>
-                        <InputError class="mt-2" :message="form.errors.password_confirmation" />
                       </div>
                     </div>
 
                     <div class="mb-5">
-                      <input type="submit" value="Create account"
-                        class="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 font-medium text-white transition hover:bg-opacity-90" />
+                        <button type="submit"
+                                    class=" w-full rounded-lg border border-primary bg-primary p-4 font-medium text-white transition"
+                                    :class="{
+                                        'bg-opacity-80': helper.loading ,
+                                        'cursor-pointer': !helper.loading,
+                                        'hover:bg-opacity-90': !helper.loading
+                                        }"
+                                    :disabled="helper.loading">
+                                    <span v-if="helper.loading" class="flex">
+                                        <LoadingIcon  class='fill-white animate-spin h-5 w-5 mx-auto'  width="30" height="30"/>
+                                    </span>
+                                    <span v-else>{{$t('views.register.button')}}</span>
+                                </button>
                     </div>
-<!--
-                    <button
-                      class="flex w-full items-center justify-center gap-3.5 font-medium rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-80 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-80">
-                      <span>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <g clip-path="url(#clip0_191_13499)">
-                            <path
-                              d="M19.999 10.2217C20.0111 9.53428 19.9387 8.84788 19.7834 8.17737H10.2031V11.8884H15.8266C15.7201 12.5391 15.4804 13.162 15.1219 13.7195C14.7634 14.2771 14.2935 14.7578 13.7405 15.1328L13.7209 15.2571L16.7502 17.5568L16.96 17.5774C18.8873 15.8329 19.9986 13.2661 19.9986 10.2217"
-                              fill="#4285F4" />
-                            <path
-                              d="M10.2055 19.9999C12.9605 19.9999 15.2734 19.111 16.9629 17.5777L13.7429 15.1331C12.8813 15.7221 11.7248 16.1333 10.2055 16.1333C8.91513 16.1259 7.65991 15.7205 6.61791 14.9745C5.57592 14.2286 4.80007 13.1801 4.40044 11.9777L4.28085 11.9877L1.13101 14.3765L1.08984 14.4887C1.93817 16.1456 3.24007 17.5386 4.84997 18.5118C6.45987 19.4851 8.31429 20.0004 10.2059 19.9999"
-                              fill="#34A853" />
-                            <path
-                              d="M4.39899 11.9777C4.1758 11.3411 4.06063 10.673 4.05807 9.99996C4.06218 9.32799 4.1731 8.66075 4.38684 8.02225L4.38115 7.88968L1.19269 5.4624L1.0884 5.51101C0.372763 6.90343 0 8.4408 0 9.99987C0 11.5589 0.372763 13.0963 1.0884 14.4887L4.39899 11.9777Z"
-                              fill="#FBBC05" />
-                            <path
-                              d="M10.2059 3.86663C11.668 3.84438 13.0822 4.37803 14.1515 5.35558L17.0313 2.59996C15.1843 0.901848 12.7383 -0.0298855 10.2059 -3.6784e-05C8.31431 -0.000477834 6.4599 0.514732 4.85001 1.48798C3.24011 2.46124 1.9382 3.85416 1.08984 5.51101L4.38946 8.02225C4.79303 6.82005 5.57145 5.77231 6.61498 5.02675C7.65851 4.28118 8.9145 3.87541 10.2059 3.86663Z"
-                              fill="#EB4335" />
-                          </g>
-                          <defs>
-                            <clipPath id="clip0_191_13499">
-                              <rect width="20" height="20" fill="white" />
-                            </clipPath>
-                          </defs>
-                        </svg>
-                      </span>
-                      Sign up with Google
-                    </button> -->
 
                     <div class="mt-6 text-center">
                       <p class="font-medium">
-                        Already have an account?
-                        <a :href="route('login')" class="text-primary">Sign in</a>
+                      {{ $t('views.register.already-have-an-account') }}
+                        <a :href="route('login')" class="text-primary"> {{  $t('views.login.sign-in-title') }}</a>
                       </p>
                     </div>
                   </form>
@@ -300,88 +280,5 @@ const submit = () => {
           </div>
           <!-- ====== Forms Section End -->
         </div>
-<!-- </AppLayout> -->
-    <!-- <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="name" value="Name" />
-                <TextInput
-                    id="name"
-                    v-model="form.name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="name"
-                />
-                <InputError class="mt-2" :message="form.errors.name" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="username"
-                />
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-                <TextInput
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
-                <TextInput
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-                <InputError class="mt-2" :message="form.errors.password_confirmation" />
-            </div>
-
-            <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">
-                <InputLabel for="terms">
-                    <div class="flex items-center">
-                        <Checkbox id="terms" v-model:checked="form.terms" name="terms" required />
-
-                        <div class="ml-2">
-                            I agree to the <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Terms of Service</a> and <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Privacy Policy</a>
-                        </div>
-                    </div>
-                    <InputError class="mt-2" :message="form.errors.terms" />
-                </InputLabel>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Already registered?
-                </Link>
-
-                <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
-                </PrimaryButton>
-            </div>
-        </form>
-    </AuthenticationCard> -->
 </template>

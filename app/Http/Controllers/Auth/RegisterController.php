@@ -22,8 +22,8 @@ class RegisterController extends Controller
             $request->merge([
                 'password' => Hash::make($request->password)
             ]);
-            $user = User::create($request->only(['name','email','password']));
-            $user->assignRole(Role::firstWhere('name','=','User')->id);
+            $user = User::create($request->only(['name', 'email', 'password']));
+            $user->roles()->attach(Role::firstWhere('name', '=', 'User')->id);
         } catch (Exception $e) {
             DB::rollBack();
             return customResponseException($e, __('errors.sistem-error'), 500);

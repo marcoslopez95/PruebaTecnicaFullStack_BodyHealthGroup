@@ -62,7 +62,8 @@ Route::middleware([
     Route::get('dashboard', function () {
         return Inertia::render('Dashboard', [
             'user' => auth()->user(),
-            'is_admin' => isAdmin()
+            'is_admin' => isAdmin(),
+            'search' => request()->input('search')
         ]);
     })->middleware('auth:sanctum')->name('dashboard');
 

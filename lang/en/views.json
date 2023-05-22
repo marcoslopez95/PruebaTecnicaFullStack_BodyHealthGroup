@@ -50,5 +50,19 @@
   },
   "dashboard": {
     "read-more": "Read more in"
+  },
+  "register": {
+    "success": "Register Successfull",
+    "sign-up": "Sign Up",
+    "placeholder": {
+      "name": "Enter your full name",
+      "email": "Enter your email",
+      "password": "Enter your password",
+      "password-confirm": "Enter again your password"
+    },
+    "password": "Password",
+    "password-confirm": "Confirm Password",
+    "already-have-an-account": "Already have an account?",
+    "button": "Create account"
   }
 }
