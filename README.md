@@ -58,4 +58,4 @@ ya en este punto aplicamos los comandos antes mecionados.
 Sí estás en windows, para éstos comandos recuerde tener instalado docker y el subsistema de linux en windows
 
 ------------------------
-Cualquier duda, pregunta, o inconveniente por favor me comentan.  [Marcos López](marcoslopez1895@gmail.com)
+Cualquier duda, pregunta, o inconveniente por favor me comentan.  Marcos López (marcoslopez1895@gmail.com)
