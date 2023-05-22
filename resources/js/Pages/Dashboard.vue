@@ -36,11 +36,6 @@ onMounted(() => {
     scrollContainer.value.addEventListener("scroll", handleScroll);
 });
 
-onUnmounted(() => {
-    //@ts-ignore
-    scrollContainer.value.removeEventListener("scroll", handleScroll);
-});
-
 watch(isEnd, (valor: boolean) => {
     if (valor) {
         publicationStore.getPublications(true,props.search)
