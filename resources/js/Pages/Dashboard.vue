@@ -77,7 +77,7 @@ watch(isEnd, (valor: boolean) => {
                     </div>
                     <!-- End Title -->
                     <!-- Start Body -->
-                    <div class="border-b border-[#507799] border-opacity-20 px-7.5 ">
+                    <div class="border-b py-2 border-[#507799] border-opacity-20 px-7.5 ">
 
                         <div class="mt-1 flex items-end justify-between">
                             <p>
