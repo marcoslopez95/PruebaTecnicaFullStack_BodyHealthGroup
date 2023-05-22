@@ -42,6 +42,9 @@ export const helperStore = defineStore('helper', () => {
         let config: AxiosRequestConfig = {
           url,
           method,
+          params:{
+            lang: localStorage.getItem('lang') ?? 'en'
+          },
           ...options,
         }
 
