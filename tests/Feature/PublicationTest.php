@@ -9,10 +9,11 @@ use App\Models\Region;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\Sanctum;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
-
+use Illuminate\Support\Str;
 class PublicationTest extends TestCase
 {
     use DatabaseTransactions, WithFaker;
@@ -340,6 +341,120 @@ class PublicationTest extends TestCase
             'currentPage' => 1,
             'perPage' => 30
         ]));
+        $response->assertOk()
+            ->assertJson([
+                "data" => [
+                    'data' => $publications->map(function (Publication $publication) {
+                        return [
+                            'id' => $publication->id,
+                            'content' => $publication->content,
+                            'labels' => $publication->labels,
+                            'isDeleted'  => $publication->isDeleted,
+                            'created_at' => (string) \Carbon\Carbon::parse($publication->created_at)->format('m-d-Y H:i'),
+                            'region'  => [
+                                'id' => $publication->region->id,
+                                'name' => $publication->region->name,
+                                'isDeleted'  => $publication->region->isDeleted,
+                            ],
+                            'external_references'  => $publication->ExternalReferences
+                                ->map(function (ExternalReference $externalReference) {
+                                    return [
+                                        'id' => $externalReference->id,
+                                        'name' => $externalReference->name,
+                                        'url' => $externalReference->url,
+                                        'isDeleted'  => $externalReference->isDeleted,
+                                    ];
+                                })->toArray(),
+                            'publication_category'  => [
+                                'id' => $publication->publicationCategory->id,
+                                'name' => $publication->publicationCategory->name,
+                                'description' => $publication->publicationCategory->description,
+                                'isDeleted'  => $publication->publicationCategory->isDeleted,
+                            ],
+                        ];
+                    })->toArray()
+                ],
+                "message" => __('generals.success-index', ['name' => 'Publication'])
+            ]);
+    }
+
+    public function test_index_publication_for_dashboard_with_paginated_and_filter_like_with_labels(): void
+    {
+
+        $publications = Publication::limit(15)->get();
+        if ($publications->count() == 0) {
+            $publications = Publication::factory(2)
+                ->for(Region::factory()->create())
+                ->for(PublicationCategory::factory()->create())
+                ->for(User::factory()->create())
+                ->has(ExternalReference::factory()->count(3))
+                ->create();
+        }
+        $response = $this->getJson(route('api.v1.publications.index', [
+            'paginated'   => 1,
+            'currentPage' => 1,
+            'perPage' => 30,
+            'search' => $filter = 'et'
+        ]));
+
+        $publications = Publication::limit(15)->where(DB::raw("FIND_IN_SET('$filter',labels)"), '>', 0)->get();
+        $response->assertOk()
+            ->assertJson([
+                "data" => [
+                    'data' => $publications->map(function (Publication $publication) {
+                        return [
+                            'id' => $publication->id,
+                            'content' => $publication->content,
+                            'labels' => $publication->labels,
+                            'isDeleted'  => $publication->isDeleted,
+                            'created_at' => (string) \Carbon\Carbon::parse($publication->created_at)->format('m-d-Y H:i'),
+                            'region'  => [
+                                'id' => $publication->region->id,
+                                'name' => $publication->region->name,
+                                'isDeleted'  => $publication->region->isDeleted,
+                            ],
+                            'external_references'  => $publication->ExternalReferences
+                                ->map(function (ExternalReference $externalReference) {
+                                    return [
+                                        'id' => $externalReference->id,
+                                        'name' => $externalReference->name,
+                                        'url' => $externalReference->url,
+                                        'isDeleted'  => $externalReference->isDeleted,
+                                    ];
+                                })->toArray(),
+                            'publication_category'  => [
+                                'id' => $publication->publicationCategory->id,
+                                'name' => $publication->publicationCategory->name,
+                                'description' => $publication->publicationCategory->description,
+                                'isDeleted'  => $publication->publicationCategory->isDeleted,
+                            ],
+                        ];
+                    })->toArray()
+                ],
+                "message" => __('generals.success-index', ['name' => 'Publication'])
+            ]);
+    }
+
+    public function test_index_publication_for_dashboard_with_paginated_and_filter_like_with_content(): void
+    {
+
+        $publications = Publication::limit(15)->get();
+        if ($publications->count() == 0) {
+            $publications = Publication::factory(2)
+                ->for(Region::factory()->create())
+                ->for(PublicationCategory::factory()->create())
+                ->for(User::factory()->create())
+                ->has(ExternalReference::factory()->count(3))
+                ->create();
+        }
+        $response = $this->getJson(route('api.v1.publications.index', [
+            'paginated'   => 1,
+            'currentPage' => 1,
+            'perPage' => 30,
+            'search' => $filter = 'Rerum blanditiis mollitia'
+        ]));
+
+        $publications = Publication::limit(15)->where(DB::raw('UPPER(content)'), 'like', '%' . Str::upper($filter) . '%')->get();
         $response->assertOk()
             ->assertJson([
                 "data" => [

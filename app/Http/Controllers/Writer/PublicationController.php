@@ -24,7 +24,7 @@ class PublicationController extends Controller
             'region',
             'publicationCategory',
             'externalReferences',
-        ])->get();
+        ])->filter($request)->get();
 
         $publications = $request->paginated
             ? PublicationResource::collection($publications)->paginate($request->perPage ?? 15)
