@@ -47,5 +47,8 @@
     "label-instructions": "write a text and press enter. Click in label for delete",
     "content-type": "Type the content (max. 255 characters)",
     "content": "Content"
+  },
+  "dashboard": {
+    "read-more": "Read more in"
   }
 }
