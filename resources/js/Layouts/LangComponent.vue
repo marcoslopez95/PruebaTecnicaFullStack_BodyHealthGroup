@@ -32,13 +32,18 @@
     </ul>
 </template>
 <script setup lang="ts">
+import { helperStore } from '@/helper';
 import TranslateIcon from '@/svg-components/TranslateIcon.vue';
 import { ref } from 'vue'
 const notifyingOpen = ref(false)
 const notifying = ref(true)
 const langs: Lang[] = ['es', 'en']
-
-const changeLanguage = (lang: Lang) => {
+const helper = helperStore()
+const changeLanguage = async (lang: Lang) => {
+    //@ts-ignore
+    await helper.http(route('api.v1.change-lang'),'get',{
+        params: {lang}
+    })
     localStorage.setItem('lang', lang)
     window.location.reload()
 }

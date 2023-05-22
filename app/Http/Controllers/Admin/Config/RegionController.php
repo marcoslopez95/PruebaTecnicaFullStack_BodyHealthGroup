@@ -73,9 +73,16 @@ class RegionController extends Controller
      */
     public function destroy(Region $region)
     {
-        $region->delete();
-
-        return response()->noContent();
+        if ($region->publications->count() === 0) {
+            $region->delete();
+            return response()->noContent();
+        }
+        return customResponseError(
+            422,
+            __('generals.errors-validations.destroy',['name'=>'Region']),
+            __('generals.errors-validations.destroy',['name'=>'Region']),
+            422
+        );
     }
 
     public function restore(int $region)

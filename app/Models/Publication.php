@@ -62,11 +62,16 @@ class Publication extends Model
     public function scopeFilter(Builder $query, $filter)
     {
         return $query->when($filter->search, function (Builder $q, string $search) {
-            if (count(explode(' ', $search)) > 2) {
-
+            $bool = count(explode(' ', $search));
+            if ($bool > 2) {
                 return $q->where(DB::raw('UPPER(content)'), 'like', '%' . Str::upper($search) . '%');
+            }else if($bool == 1 ) {
+                return $q->where(DB::raw("FIND_IN_SET('$search',labels)"), '>', 0);
+            }else {
+                return $q->where(DB::raw("FIND_IN_SET('$search',labels)"), '>', 0)
+                        ->orWhere(DB::raw('UPPER(content)'), 'like', '%' . Str::upper($search) . '%');
+
             }
-            return $q->where(DB::raw("FIND_IN_SET('$search',labels)"), '>', 0);
         });
     }
 }

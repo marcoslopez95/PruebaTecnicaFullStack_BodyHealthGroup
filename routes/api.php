@@ -11,6 +11,9 @@ use App\Http\Controllers\Admin\Config\RegionController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Writer\PublicationController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,31 +37,37 @@ Route::post('login', LoginController::class)->name('login');
 Route::post('logout', LogoutController::class)->name('logout');
 
 Route::group([
-    'middleware' => ['role:Admin','auth:sanctum'],
+    'middleware' => ['role:Admin', 'auth:sanctum'],
     'prefix' => 'admin/security'
 ], function () {
     Route::apiResource('permissions', PermissionController::class);
     Route::apiResource('roles', RoleController::class);
 
     Route::apiResource('users', UserController::class);
-    Route::put('users/{user}/restore', [UserController::class,'restore'])->name('users.restore');
+    Route::put('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
 });
 
 Route::group([
-    'middleware' => ['role:Admin','auth:sanctum'],
+    'middleware' => ['role:Admin', 'auth:sanctum'],
     'prefix' => 'admin/config'
 ], function () {
     Route::apiResource('publication-categories', PublicationCategoryController::class);
-    Route::put('publication-categories/{publication_category}/restore', [PublicationCategoryController::class,'restore'])->name('publication-categories.restore');
+    Route::put('publication-categories/{publication_category}/restore', [PublicationCategoryController::class, 'restore'])->name('publication-categories.restore');
 
     Route::apiResource('regions', RegionController::class);
-    Route::put('regions/{region}/restore', [RegionController::class,'restore'])->name('regions.restore');
+    Route::put('regions/{region}/restore', [RegionController::class, 'restore'])->name('regions.restore');
 
     Route::apiResource('external-references', ExternalReferenceController::class);
-    Route::put('external-references/{external_reference}/restore', [ExternalReferenceController::class,'restore'])->name('external-references.restore');
+    Route::put('external-references/{external_reference}/restore', [ExternalReferenceController::class, 'restore'])->name('external-references.restore');
 
     Route::apiResource('publications', PublicationController::class)->except('index');
-    Route::put('publications/{publication}/restore', [PublicationController::class,'restore'])->name('publications.restore');
+    Route::put('publications/{publication}/restore', [PublicationController::class, 'restore'])->name('publications.restore');
 });
 
-Route::middleware('auth:sanctum')->get('publications', [PublicationController::class,'index'])->name('publications.index');
+Route::middleware('auth:sanctum')->get('publications', [PublicationController::class, 'index'])->name('publications.index');
+
+Route::get('change-lang', function (Request $request) {
+    App::setLocale($request->lang);
+
+    return response()->noContent();
+})->name('change-lang');
