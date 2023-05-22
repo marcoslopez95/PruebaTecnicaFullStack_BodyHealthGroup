@@ -73,9 +73,17 @@ class PublicationCategoryController extends Controller
      */
     public function destroy(PublicationCategory $publicationCategory)
     {
-        $publicationCategory->delete();
 
-        return response()->noContent();
+        if ($publicationCategory->publications->count() === 0) {
+            $publicationCategory->delete();
+            return response()->noContent();
+        }
+        return customResponseError(
+            422,
+            __('generals.errors-validations.destroy',['name'=>'Region']),
+            __('generals.errors-validations.destroy',['name'=>'Region']),
+            422
+        );
     }
 
     public function restore(int $publicationCategory)

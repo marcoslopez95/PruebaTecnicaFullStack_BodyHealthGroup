@@ -73,9 +73,17 @@ class ExternalReferenceController extends Controller
      */
     public function destroy(ExternalReference $externalReference)
     {
-        $externalReference->delete();
 
-        return response()->noContent();
+        if ($externalReference->publications->count() === 0) {
+            $externalReference->delete();
+            return response()->noContent();
+        }
+        return customResponseError(
+            422,
+            __('generals.errors-validations.destroy', ['name' => 'Region']),
+            __('generals.errors-validations.destroy', ['name' => 'Region']),
+            422
+        );
     }
 
     public function restore(int $externalReference)
